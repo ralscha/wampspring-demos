@@ -73,15 +73,19 @@ public class SnakeService {
 	@WampUnsubscribeListener(value="snake",replyTo="snake")
 	public synchronized SnakeMessage removeSnake(WampSession session) {
 		Integer snakeId = session.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);
-		snakes.remove(snakeId);
-		if (snakes.isEmpty()) {
-			if (gameTimer != null) {
-				gameTimer.cancel();
-				gameTimer = null;
+		if (snakeId != null) {
+			snakes.remove(snakeId);
+			if (snakes.isEmpty()) {
+				if (gameTimer != null) {
+					gameTimer.cancel();
+					gameTimer = null;
+				}
 			}
+			
+			return SnakeMessage.createLeaveMessage(snakeId);
 		}
 		
-		return SnakeMessage.createLeaveMessage(snakeId);
+		return null;
 	}
 
 	public void startTimer() {
