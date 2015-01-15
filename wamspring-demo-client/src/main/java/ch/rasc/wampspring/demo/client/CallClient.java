@@ -2,6 +2,7 @@ package ch.rasc.wampspring.demo.client;
 
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.TextMessage;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Client {
+public class CallClient {
 
 	public static void main(String[] args) throws InterruptedException {
 		WebSocketClient webSocketClient = new StandardWebSocketClient();
@@ -48,7 +49,9 @@ public class Client {
 			System.exit(1);
 		});
 
-		latch.await();
+		if (!latch.await(3, TimeUnit.MINUTES)) {
+			System.out.println("SOMETHING WENT WRONG");
+		}
 		System.out.println((System.currentTimeMillis() - start[0]) / 1000 + " seconds");
 		System.out.println("SUCCESS: " + handler.getSuccess());
 		System.out.println("ERROR  : " + handler.getError());
