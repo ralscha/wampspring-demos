@@ -21,7 +21,6 @@ public class QuoteSender {
 		this.eventMessenger = eventMessenger;
 	}
 	
-	@Autowired
 	@Scheduled(initialDelay = 5000, fixedDelay = 2000)
 	public void sendStockQuotes() {
 		eventMessenger.sendToAll("/topic/PRICE.STOCK." + quotes[random.nextInt(4)],
