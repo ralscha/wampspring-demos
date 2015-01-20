@@ -46,9 +46,9 @@ public class Snake {
 
 	private final String hexColor;
 
-	public Snake(Integer id, String webSocketSessionId) {
-		this.id = id;
-		this.webSocketSessionId = webSocketSessionId;
+	public Snake(SnakeId snakeId) {
+		this.id = snakeId.getId();
+		this.webSocketSessionId = snakeId.getWebSocketSessionId();
 		this.hexColor = SnakeUtils.getRandomHexColor();
 		resetState();
 	}

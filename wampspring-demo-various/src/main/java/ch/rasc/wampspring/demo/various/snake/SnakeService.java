@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,6 @@ import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampSubscribeListener;
 import ch.rasc.wampspring.annotation.WampUnsubscribeListener;
-import ch.rasc.wampspring.handler.WampSession;
 
 /**
  * Sets up the timer for the multi-player snake game WebSocket example.
@@ -42,37 +40,34 @@ import ch.rasc.wampspring.handler.WampSession;
 @Service
 public class SnakeService {
 
-	private static final AtomicInteger snakeIds = new AtomicInteger(0);
-
-	private final static String SNAKE_ID_ATTRIBUTE_NAME = "SNAKE_ID";
-
 	private final ConcurrentHashMap<Integer, Snake> snakes = new ConcurrentHashMap<>();
 
 	private final EventMessenger eventMessenger;
 
 	private Timer gameTimer;
 
+	private final SnakeId currentSnakeId;
+
 	@Autowired
-	public SnakeService(EventMessenger eventMessenger) {
+	public SnakeService(SnakeId currentSnakeId, EventMessenger eventMessenger) {
 		this.eventMessenger = eventMessenger;
+		this.currentSnakeId = currentSnakeId;
 	}
 
 	@WampSubscribeListener(value = "snake", replyTo = "snake")
-	public synchronized SnakeMessage addSnake(WampSession session) {
-		int newSnakeId = snakeIds.incrementAndGet();
-		session.setAttribute(SNAKE_ID_ATTRIBUTE_NAME, newSnakeId);
-		Snake newSnake = new Snake(newSnakeId, session.getSessionId());
+	public synchronized SnakeMessage addSnake() {
+		Snake newSnake = new Snake(currentSnakeId);
 		if (snakes.isEmpty()) {
 			startTimer();
 		}
-		snakes.put(newSnakeId, newSnake);
+		snakes.put(newSnake.getId(), newSnake);
 
 		return SnakeMessage.createJoinMessage(createJoinData());
 	}
 
 	@WampUnsubscribeListener(value = "snake", replyTo = "snake")
-	public synchronized SnakeMessage removeSnake(WampSession session) {
-		Integer snakeId = session.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);
+	public synchronized SnakeMessage removeSnake() {
+		Integer snakeId = currentSnakeId.getId();
 		if (snakeId != null) {
 			snakes.remove(snakeId);
 			if (snakes.isEmpty()) {
@@ -133,9 +128,8 @@ public class SnakeService {
 	}
 
 	@WampCallListener
-	public void changeDirection(WampSession wampSession, String message) {
-		Integer snakeId = wampSession.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);
-		Snake snake = snakes.get(snakeId);
+	public void changeDirection(String message) {
+		Snake snake = snakes.get(currentSnakeId.getId());
 		if (snake != null) {
 			if ("west".equals(message)) {
 				snake.setDirection(Direction.WEST);
