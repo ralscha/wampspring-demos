@@ -20,58 +20,58 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Location {
 
-    public int x;
+	public int x;
 
-    public int y;
+	public int y;
 
-    public Location(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+	public Location(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
-    @JsonIgnore
-    public Location getAdjacentLocation(Direction direction) {
-        switch (direction) {
-            case NORTH:
+	@JsonIgnore
+	public Location getAdjacentLocation(Direction direction) {
+		switch (direction) {
+		case NORTH:
 			return new Location(x, y - SnakeUtils.GRID_SIZE);
-            case SOUTH:
+		case SOUTH:
 			return new Location(x, y + SnakeUtils.GRID_SIZE);
-            case EAST:
+		case EAST:
 			return new Location(x + SnakeUtils.GRID_SIZE, y);
-            case WEST:
+		case WEST:
 			return new Location(x - SnakeUtils.GRID_SIZE, y);
-            case NONE:
-                // fall through
-            default:
-                return this;
-        }
-    }
+		case NONE:
+			// fall through
+		default:
+			return this;
+		}
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-        if (o == null || getClass() != o.getClass()) {
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
 
-        Location location = (Location) o;
+		Location location = (Location) o;
 
-        if (x != location.x) {
+		if (x != location.x) {
 			return false;
 		}
-        if (y != location.y) {
+		if (y != location.y) {
 			return false;
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = x;
+		result = 31 * result + y;
+		return result;
+	}
 }

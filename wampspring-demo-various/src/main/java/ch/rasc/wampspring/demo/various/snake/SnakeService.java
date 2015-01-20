@@ -45,7 +45,7 @@ public class SnakeService {
 	private static final AtomicInteger snakeIds = new AtomicInteger(0);
 
 	private final static String SNAKE_ID_ATTRIBUTE_NAME = "SNAKE_ID";
-	
+
 	private final ConcurrentHashMap<Integer, Snake> snakes = new ConcurrentHashMap<>();
 
 	private final EventMessenger eventMessenger;
@@ -57,7 +57,7 @@ public class SnakeService {
 		this.eventMessenger = eventMessenger;
 	}
 
-	@WampSubscribeListener(value="snake",replyTo="snake")
+	@WampSubscribeListener(value = "snake", replyTo = "snake")
 	public synchronized SnakeMessage addSnake(WampSession session) {
 		int newSnakeId = snakeIds.incrementAndGet();
 		session.setAttribute(SNAKE_ID_ATTRIBUTE_NAME, newSnakeId);
@@ -66,11 +66,11 @@ public class SnakeService {
 			startTimer();
 		}
 		snakes.put(newSnakeId, newSnake);
-		
+
 		return SnakeMessage.createJoinMessage(createJoinData());
 	}
 
-	@WampUnsubscribeListener(value="snake",replyTo="snake")
+	@WampUnsubscribeListener(value = "snake", replyTo = "snake")
 	public synchronized SnakeMessage removeSnake(WampSession session) {
 		Integer snakeId = session.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);
 		if (snakeId != null) {
@@ -81,10 +81,10 @@ public class SnakeService {
 					gameTimer = null;
 				}
 			}
-			
+
 			return SnakeMessage.createLeaveMessage(snakeId);
 		}
-		
+
 		return null;
 	}
 
@@ -104,7 +104,7 @@ public class SnakeService {
 		List<Map<String, Object>> updateData = new ArrayList<>();
 		for (Snake snake : allSnakes) {
 			snake.update(allSnakes, eventMessenger);
-			
+
 			Map<String, Object> locationsData = snake.getLocationsData();
 			if (locationsData != null) {
 				updateData.add(locationsData);
@@ -112,7 +112,8 @@ public class SnakeService {
 		}
 
 		if (!updateData.isEmpty()) {
-			eventMessenger.sendToAll("snake", SnakeMessage.createUpdateMessage(updateData));
+			eventMessenger.sendToAll("snake",
+					SnakeMessage.createUpdateMessage(updateData));
 		}
 	}
 
@@ -121,9 +122,9 @@ public class SnakeService {
 	}
 
 	public List<Map<String, Object>> createJoinData() {
-		List<Map<String,Object>> result = new ArrayList<>();
+		List<Map<String, Object>> result = new ArrayList<>();
 		for (Snake snake : getSnakes()) {
-			Map<String,Object> es = new HashMap<>();
+			Map<String, Object> es = new HashMap<>();
 			es.put("id", snake.getId());
 			es.put("color", snake.getHexColor());
 			result.add(es);
@@ -133,19 +134,22 @@ public class SnakeService {
 
 	@WampCallListener
 	public void changeDirection(WampSession wampSession, String message) {
-		Integer snakeId = wampSession.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);		
+		Integer snakeId = wampSession.getAttribute(SNAKE_ID_ATTRIBUTE_NAME);
 		Snake snake = snakes.get(snakeId);
 		if (snake != null) {
-	        if ("west".equals(message)) {
-	            snake.setDirection(Direction.WEST);
-	        } else if ("north".equals(message)) {
-	            snake.setDirection(Direction.NORTH);
-	        } else if ("east".equals(message)) {
-	            snake.setDirection(Direction.EAST);
-	        } else if ("south".equals(message)) {
-	            snake.setDirection(Direction.SOUTH);
-	        }
-		}		
+			if ("west".equals(message)) {
+				snake.setDirection(Direction.WEST);
+			}
+			else if ("north".equals(message)) {
+				snake.setDirection(Direction.NORTH);
+			}
+			else if ("east".equals(message)) {
+				snake.setDirection(Direction.EAST);
+			}
+			else if ("south".equals(message)) {
+				snake.setDirection(Direction.SOUTH);
+			}
+		}
 	}
 
 }

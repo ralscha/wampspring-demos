@@ -49,7 +49,7 @@ public class NetworkInfoProducer {
 
 	@Scheduled(initialDelay = 2000, fixedRate = 1000)
 	public void sendNetworkInfo() {
-		if (subscriptionRegistry.hasSubscriptions()) {			
+		if (subscriptionRegistry.hasSubscriptions()) {
 			if (isLinux) {
 				try {
 					ProcessBuilder pb = new ProcessBuilder("cat", "/sys/class/net/"

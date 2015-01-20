@@ -28,125 +28,128 @@ import ch.rasc.wampspring.EventMessenger;
 
 public class Snake {
 
-    private static final int DEFAULT_LENGTH = 5;
+	private static final int DEFAULT_LENGTH = 5;
 
-    private final Integer id;
-    
-    private final String webSocketSessionId;
+	private final Integer id;
 
-    private Direction direction;
+	private final String webSocketSessionId;
 
-    private int length = DEFAULT_LENGTH;
+	private Direction direction;
 
-    private Location head;
-    
-    private Location lastHead;
+	private int length = DEFAULT_LENGTH;
 
-    private final Deque<Location> tail = new ArrayDeque<>();
+	private Location head;
 
-    private final String hexColor;
+	private Location lastHead;
 
-    public Snake(Integer id, String webSocketSessionId) {
-        this.id = id;
-        this.webSocketSessionId = webSocketSessionId;
+	private final Deque<Location> tail = new ArrayDeque<>();
+
+	private final String hexColor;
+
+	public Snake(Integer id, String webSocketSessionId) {
+		this.id = id;
+		this.webSocketSessionId = webSocketSessionId;
 		this.hexColor = SnakeUtils.getRandomHexColor();
-        resetState();
-    }
+		resetState();
+	}
 
-    private void resetState() {
-        this.direction = Direction.NONE;
+	private void resetState() {
+		this.direction = Direction.NONE;
 		this.head = SnakeUtils.getRandomLocation();
-        this.tail.clear();
-        this.length = DEFAULT_LENGTH;
-    }
+		this.tail.clear();
+		this.length = DEFAULT_LENGTH;
+	}
 
-    private synchronized void kill(EventMessenger eventMessenger) {
-        resetState();
-        eventMessenger.sendTo("snake", SnakeMessage.createDeadMessage(), getWebSocketSessionId());
-    }
+	private synchronized void kill(EventMessenger eventMessenger) {
+		resetState();
+		eventMessenger.sendTo("snake", SnakeMessage.createDeadMessage(),
+				getWebSocketSessionId());
+	}
 
-    private synchronized void reward(EventMessenger eventMessenger) {
-        length++;
-        eventMessenger.sendTo("snake", SnakeMessage.createKillMessage(), getWebSocketSessionId());
-    }
+	private synchronized void reward(EventMessenger eventMessenger) {
+		length++;
+		eventMessenger.sendTo("snake", SnakeMessage.createKillMessage(),
+				getWebSocketSessionId());
+	}
 
-    public synchronized void update(Collection<Snake> snakes, EventMessenger eventMessenger) {
-        Location nextLocation = head.getAdjacentLocation(direction);
+	public synchronized void update(Collection<Snake> snakes,
+			EventMessenger eventMessenger) {
+		Location nextLocation = head.getAdjacentLocation(direction);
 		if (nextLocation.x >= SnakeUtils.PLAYFIELD_WIDTH) {
-            nextLocation.x = 0;
-        }
+			nextLocation.x = 0;
+		}
 		if (nextLocation.y >= SnakeUtils.PLAYFIELD_HEIGHT) {
-            nextLocation.y = 0;
-        }
-        if (nextLocation.x < 0) {
+			nextLocation.y = 0;
+		}
+		if (nextLocation.x < 0) {
 			nextLocation.x = SnakeUtils.PLAYFIELD_WIDTH;
-        }
-        if (nextLocation.y < 0) {
+		}
+		if (nextLocation.y < 0) {
 			nextLocation.y = SnakeUtils.PLAYFIELD_HEIGHT;
-        }
-        if (direction != Direction.NONE) {
-            tail.addFirst(head);
-            if (tail.size() > length) {
-                tail.removeLast();
-            }
-            head = nextLocation;
-        }
+		}
+		if (direction != Direction.NONE) {
+			tail.addFirst(head);
+			if (tail.size() > length) {
+				tail.removeLast();
+			}
+			head = nextLocation;
+		}
 
-        handleCollisions(snakes,eventMessenger);
-    }
+		handleCollisions(snakes, eventMessenger);
+	}
 
-    private void handleCollisions(Collection<Snake> snakes, EventMessenger eventMessenger) {
-        for (Snake snake : snakes) {
-            boolean headCollision = id != snake.id && snake.getHead().equals(head);
-            boolean tailCollision = snake.getTail().contains(head);
-            if (headCollision || tailCollision) {
-                kill(eventMessenger);
-                if (id != snake.id) {
-                    snake.reward(eventMessenger);
-                }
-            }
-        }
-    }
+	private void handleCollisions(Collection<Snake> snakes, EventMessenger eventMessenger) {
+		for (Snake snake : snakes) {
+			boolean headCollision = id != snake.id && snake.getHead().equals(head);
+			boolean tailCollision = snake.getTail().contains(head);
+			if (headCollision || tailCollision) {
+				kill(eventMessenger);
+				if (id != snake.id) {
+					snake.reward(eventMessenger);
+				}
+			}
+		}
+	}
 
-    public synchronized Location getHead() {
-        return head;
-    }
+	public synchronized Location getHead() {
+		return head;
+	}
 
-    public synchronized Collection<Location> getTail() {
-        return tail;
-    }
+	public synchronized Collection<Location> getTail() {
+		return tail;
+	}
 
-    public synchronized void setDirection(Direction direction) {
-        this.direction = direction;
-    }
+	public synchronized void setDirection(Direction direction) {
+		this.direction = direction;
+	}
 
-    public synchronized Map<String,Object> getLocationsData() {    	
-    	//Only create location data if it changed    	
-    	if (lastHead == null || !lastHead.equals(head)) {
-    		lastHead = head;
-    		
+	public synchronized Map<String, Object> getLocationsData() {
+		// Only create location data if it changed
+		if (lastHead == null || !lastHead.equals(head)) {
+			lastHead = head;
+
 			List<Location> locations = new ArrayList<>();
 			locations.add(head);
-			locations.addAll(tail);		
-	    	
-			Map<String,Object> es = new HashMap<>();
+			locations.addAll(tail);
+
+			Map<String, Object> es = new HashMap<>();
 			es.put("id", getId());
-	    	es.put("body", locations);
+			es.put("body", locations);
 			return es;
-    	}
-    	
-    	return null;
-    }
+		}
 
-    public String getWebSocketSessionId() {
-    	return webSocketSessionId;
-    }
-    
-    public Integer getId() {
-        return id;
-    }
+		return null;
+	}
 
-    public String getHexColor() {
-        return hexColor;
-    }
+	public String getWebSocketSessionId() {
+		return webSocketSessionId;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getHexColor() {
+		return hexColor;
+	}
 }

@@ -5,7 +5,7 @@ public class SortInfo {
 
 	private SortDirection direction;
 
-	public SortInfo() {		
+	public SortInfo() {
 	}
 
 	public String getProperty() {
