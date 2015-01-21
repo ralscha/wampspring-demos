@@ -26,6 +26,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,17 +68,24 @@ public class SnakeService {
 
 	@WampUnsubscribeListener(value = "snake", replyTo = "snake")
 	public synchronized SnakeMessage removeSnake() {
-		Integer snakeId = currentSnakeId.getId();
-		if (snakeId != null) {
-			snakes.remove(snakeId);
-			if (snakes.isEmpty()) {
-				if (gameTimer != null) {
-					gameTimer.cancel();
-					gameTimer = null;
+		try {
+			Integer snakeId = currentSnakeId.getId();
+			if (snakeId != null) {
+				snakes.remove(snakeId);
+				if (snakes.isEmpty()) {
+					if (gameTimer != null) {
+						gameTimer.cancel();
+						gameTimer = null;
+					}
 				}
-			}
 
-			return SnakeMessage.createLeaveMessage(snakeId);
+				return SnakeMessage.createLeaveMessage(snakeId);
+			}
+		}
+		catch (BeanCreationException e) {	
+			//A websocket session was destroyed from another example
+			//The other example does not have the scope snakeId in it's session
+			//so a call to currentSnakeId.getId() throws an error
 		}
 
 		return null;
