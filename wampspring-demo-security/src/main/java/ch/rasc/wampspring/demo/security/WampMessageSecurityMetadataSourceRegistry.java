@@ -88,7 +88,7 @@ public class WampMessageSecurityMetadataSourceRegistry {
 	 * @see {@link WampMessageSecurityMetadataSourceRegistry#pathMatcher(PathMatcher)}
 	 */
 	public Constraint antMatchers(WampMessageType type, String... patterns) {
-		List<MatcherBuilder> matchers = new ArrayList<MatcherBuilder>(patterns.length);
+		List<MatcherBuilder> matchers = new ArrayList<>(patterns.length);
 		for (String pattern : patterns) {
 			matchers.add(new PathMatcherMessageMatcherBuilder(pattern, type));
 		}
@@ -118,7 +118,7 @@ public class WampMessageSecurityMetadataSourceRegistry {
 	 * instances
 	 */
 	public Constraint matchers(MessageMatcher<?>... matchers) {
-		List<MatcherBuilder> builders = new ArrayList<MatcherBuilder>(matchers.length);
+		List<MatcherBuilder> builders = new ArrayList<>(matchers.length);
 		for (MessageMatcher<?> matcher : matchers) {
 			builders.add(new PreBuiltMatcherBuilder(matcher));
 		}
@@ -136,13 +136,13 @@ public class WampMessageSecurityMetadataSourceRegistry {
 	 * @return the {@link MessageSecurityMetadataSource} to use
 	 */
 	protected MessageSecurityMetadataSource createMetadataSource() {
-		LinkedHashMap<MessageMatcher<?>, String> matcherToExpression = new LinkedHashMap<>();
+		LinkedHashMap<MessageMatcher<?>, String> mte = new LinkedHashMap<>();
 		for (Map.Entry<MatcherBuilder, String> entry : this.matcherToExpression
 				.entrySet()) {
-			matcherToExpression.put(entry.getKey().build(), entry.getValue());
+			mte.put(entry.getKey().build(), entry.getValue());
 		}
 		return ExpressionBasedMessageSecurityMetadataSourceFactory
-				.createExpressionMessageMetadataSource(matcherToExpression);
+				.createExpressionMessageMetadataSource(mte);
 	}
 
 	/**

@@ -76,7 +76,8 @@ public abstract class AbstractSecurityWampConfigurer extends WampConfigurerAdapt
 		return this.inboundRegistry.createMetadataSource();
 	}
 
-	protected void configureInbound(WampMessageSecurityMetadataSourceRegistry messages) {
+	protected void configureInbound(
+			@SuppressWarnings("unused") WampMessageSecurityMetadataSourceRegistry messages) {
 		// by default nothing here
 	}
 

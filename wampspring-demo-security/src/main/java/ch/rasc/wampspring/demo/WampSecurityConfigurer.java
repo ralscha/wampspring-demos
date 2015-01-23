@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Configuration;
 
 import ch.rasc.wampspring.demo.security.AbstractSecurityWampConfigurer;
 import ch.rasc.wampspring.demo.security.WampMessageSecurityMetadataSourceRegistry;
-import ch.rasc.wampspring.message.WampMessageType;
 
 @Configuration
 public class WampSecurityConfigurer extends AbstractSecurityWampConfigurer {
