@@ -8,7 +8,7 @@ import org.springframework.session.SessionRepository;
 import org.springframework.session.web.http.CookieHttpSessionStrategy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
 
-import ch.rasc.wampspring.demo.session.AbstractSessionWampConfigurer;
+import ch.rasc.wampspring.session.AbstractSessionWampConfigurer;
 
 @Configuration
 public class SessionConfig extends AbstractSessionWampConfigurer<ExpiringSession> {
