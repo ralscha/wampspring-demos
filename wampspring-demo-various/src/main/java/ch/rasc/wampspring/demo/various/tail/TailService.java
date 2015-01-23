@@ -47,7 +47,7 @@ public class TailService {
 
 	public ExecutorService executor;
 
-	private List<Tailer> tailers;
+	private final List<Tailer> tailers;
 
 	private DatabaseReader reader = null;
 
@@ -61,7 +61,7 @@ public class TailService {
 			Path database = Paths.get(databaseFile);
 			if (Files.exists(database)) {
 				try {
-					reader = new DatabaseReader.Builder(database.toFile()).build();
+					this.reader = new DatabaseReader.Builder(database.toFile()).build();
 				}
 				catch (IOException e) {
 					LoggerFactory.getLogger(getClass()).error("GeoIPCityService init", e);
@@ -69,36 +69,36 @@ public class TailService {
 			}
 		}
 
-		tailers = new ArrayList<>();
+		this.tailers = new ArrayList<>();
 
 		for (String logFile : accessLogs.split(",")) {
 			Path p = Paths.get(logFile.trim());
-			tailers.add(new Tailer(p.toFile(), new ListenerAdapter()));
+			this.tailers.add(new Tailer(p.toFile(), new ListenerAdapter()));
 		}
 
-		executor = Executors.newFixedThreadPool(tailers.size());
-		for (Tailer tailer : tailers) {
-			executor.execute(tailer);
+		this.executor = Executors.newFixedThreadPool(this.tailers.size());
+		for (Tailer tailer : this.tailers) {
+			this.executor.execute(tailer);
 		}
 	}
 
 	@PreDestroy
 	public void preDestroy() {
-		if (tailers != null) {
-			for (Tailer tailer : tailers) {
+		if (this.tailers != null) {
+			for (Tailer tailer : this.tailers) {
 				tailer.stop();
 			}
 		}
 
-		if (executor != null) {
-			executor.shutdown();
+		if (this.executor != null) {
+			this.executor.shutdown();
 		}
 	}
 
 	private class ListenerAdapter extends TailerListenerAdapter {
 		@Override
 		public void handle(String line) {
-			Matcher matcher = accessLogPattern.matcher(line);
+			Matcher matcher = TailService.this.accessLogPattern.matcher(line);
 
 			if (!matcher.matches()) {
 				// System.out.println(line);
@@ -116,7 +116,7 @@ public class TailService {
 					access.setCountry(cr.getCountry().getName());
 
 					String userAgent = matcher.group(9);
-					ReadableUserAgent ua = parser.parse(userAgent);
+					ReadableUserAgent ua = TailService.this.parser.parse(userAgent);
 					if (ua != null && ua.getFamily() != UserAgentFamily.UNKNOWN) {
 						String uaString = ua.getName() + " "
 								+ ua.getVersionNumber().toVersionString();
@@ -133,18 +133,18 @@ public class TailService {
 					access.setLl(new Double[] { cr.getLocation().getLatitude(),
 							cr.getLocation().getLongitude() });
 
-					eventMessenger.sendToAll("/queue/geoip", access);
+					TailService.this.eventMessenger.sendToAll("/queue/geoip", access);
 				}
 			}
 		}
 	}
 
 	public CityResponse lookupCity(String ip) {
-		if (reader != null) {
+		if (this.reader != null) {
 			CityResponse response;
 			try {
 				try {
-					response = reader.city(InetAddress.getByName(ip));
+					response = this.reader.city(InetAddress.getByName(ip));
 					return response;
 				}
 				catch (AddressNotFoundException e) {

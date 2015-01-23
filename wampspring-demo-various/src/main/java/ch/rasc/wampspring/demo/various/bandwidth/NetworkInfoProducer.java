@@ -44,43 +44,43 @@ public class NetworkInfoProducer {
 		OperatingSystemMXBean operatingSystemMXBean = ManagementFactory
 				.getOperatingSystemMXBean();
 		String os = operatingSystemMXBean.getName().toLowerCase();
-		isLinux = os.indexOf("linux") != -1;
+		this.isLinux = os.indexOf("linux") != -1;
 	}
 
 	@Scheduled(initialDelay = 2000, fixedRate = 1000)
 	public void sendNetworkInfo() {
-		if (subscriptionRegistry.hasSubscriptions()) {
-			if (isLinux) {
+		if (this.subscriptionRegistry.hasSubscriptions()) {
+			if (this.isLinux) {
 				try {
 					ProcessBuilder pb = new ProcessBuilder("cat", "/sys/class/net/"
-							+ networkInterface + "/statistics/rx_bytes");
+							+ this.networkInterface + "/statistics/rx_bytes");
 					Process p = pb.start();
 					p.waitFor();
-					rx = Long.parseLong(StringUtils.trimAllWhitespace(StreamUtils
+					this.rx = Long.parseLong(StringUtils.trimAllWhitespace(StreamUtils
 							.copyToString(p.getInputStream(), StandardCharsets.UTF_8)));
 
-					pb = new ProcessBuilder("cat", "/sys/class/net/" + networkInterface
-							+ "/statistics/tx_bytes");
+					pb = new ProcessBuilder("cat", "/sys/class/net/"
+							+ this.networkInterface + "/statistics/tx_bytes");
 					p = pb.start();
 					p.waitFor();
-					tx = Long.parseLong(StringUtils.trimAllWhitespace(StreamUtils
+					this.tx = Long.parseLong(StringUtils.trimAllWhitespace(StreamUtils
 							.copyToString(p.getInputStream(), StandardCharsets.UTF_8)));
 				}
 				catch (NumberFormatException | IOException | InterruptedException e) {
-					rx = 0;
-					tx = 0;
+					this.rx = 0;
+					this.tx = 0;
 				}
 			}
 			else {
-				rx += rand.nextInt(512 * 1024);
-				tx += rand.nextInt(512 * 1024);
+				this.rx += this.rand.nextInt(512 * 1024);
+				this.tx += this.rand.nextInt(512 * 1024);
 			}
 
 			Map<String, Long> info = new HashMap<>();
-			info.put("rec", rx);
-			info.put("snd", tx);
+			info.put("rec", this.rx);
+			info.put("snd", this.tx);
 
-			eventMessenger.sendToAll("networkinfo", info);
+			this.eventMessenger.sendToAll("networkinfo", info);
 		}
 	}
 

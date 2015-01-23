@@ -27,7 +27,7 @@ public class SchedulerHandler {
 	@WampPublishListener("schdemo#clientDoInitialLoad")
 	public void clientDoInitialLoad(PublishMessage message) {
 		String sessionId = message.getHeader(WampMessageHeader.WEBSOCKET_SESSION_ID);
-		eventMessenger.sendTo("schdemo#serverDoInitialLoad",
+		this.eventMessenger.sendTo("schdemo#serverDoInitialLoad",
 				Collections.singletonMap("data", CustomEventDb.list()),
 				Collections.singleton(sessionId));
 	}
@@ -35,7 +35,7 @@ public class SchedulerHandler {
 	@WampPublishListener("schdemo#clientDoUpdate")
 	public void clientDoUpdate(PublishMessage message, CustomEvent record) {
 		CustomEventDb.update(record);
-		eventMessenger.sendToAllExcept("schdemo#serverDoUpdate", record,
+		this.eventMessenger.sendToAllExcept("schdemo#serverDoUpdate", record,
 				message.getSessionId());
 	}
 
@@ -59,10 +59,10 @@ public class SchedulerHandler {
 			ids.add(result);
 		}
 
-		eventMessenger.sendToAllExcept("schdemo#serverDoAdd",
+		this.eventMessenger.sendToAllExcept("schdemo#serverDoAdd",
 				Collections.singletonMap("records", updatedRecords),
 				message.getSessionId());
-		eventMessenger.sendToAll("schdemo#serverSyncId",
+		this.eventMessenger.sendToAll("schdemo#serverSyncId",
 				Collections.singletonMap("records", ids));
 	}
 
@@ -70,7 +70,7 @@ public class SchedulerHandler {
 	public void clientDoRemove(PublishMessage message, List<Integer> ids) {
 		CustomEventDb.delete(ids);
 
-		eventMessenger.sendToAllExcept("schdemo#serverDoRemove",
+		this.eventMessenger.sendToAllExcept("schdemo#serverDoRemove",
 				Collections.singletonMap("ids", ids), message.getSessionId());
 	}
 

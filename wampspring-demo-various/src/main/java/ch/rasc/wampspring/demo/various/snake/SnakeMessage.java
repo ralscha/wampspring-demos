@@ -49,15 +49,15 @@ public class SnakeMessage {
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	public Object getData() {
-		return data;
+		return this.data;
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 }

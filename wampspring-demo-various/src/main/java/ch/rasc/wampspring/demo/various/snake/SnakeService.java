@@ -57,11 +57,11 @@ public class SnakeService {
 
 	@WampSubscribeListener(value = "snake", replyTo = "snake")
 	public synchronized SnakeMessage addSnake() {
-		Snake newSnake = new Snake(currentSnakeId);
-		if (snakes.isEmpty()) {
+		Snake newSnake = new Snake(this.currentSnakeId);
+		if (this.snakes.isEmpty()) {
 			startTimer();
 		}
-		snakes.put(newSnake.getId(), newSnake);
+		this.snakes.put(newSnake.getId(), newSnake);
 
 		return SnakeMessage.createJoinMessage(createJoinData());
 	}
@@ -69,31 +69,31 @@ public class SnakeService {
 	@WampUnsubscribeListener(value = "snake", replyTo = "snake")
 	public synchronized SnakeMessage removeSnake() {
 		try {
-			Integer snakeId = currentSnakeId.getId();
+			Integer snakeId = this.currentSnakeId.getId();
 			if (snakeId != null) {
-				snakes.remove(snakeId);
-				if (snakes.isEmpty()) {
-					if (gameTimer != null) {
-						gameTimer.cancel();
-						gameTimer = null;
+				this.snakes.remove(snakeId);
+				if (this.snakes.isEmpty()) {
+					if (this.gameTimer != null) {
+						this.gameTimer.cancel();
+						this.gameTimer = null;
 					}
 				}
 
 				return SnakeMessage.createLeaveMessage(snakeId);
 			}
 		}
-		catch (BeanCreationException e) {	
-			//A websocket session was destroyed from another example
-			//The other example does not have the scope snakeId in it's session
-			//so a call to currentSnakeId.getId() throws an error
+		catch (BeanCreationException e) {
+			// A websocket session was destroyed from another example
+			// The other example does not have the scope snakeId in it's session
+			// so a call to currentSnakeId.getId() throws an error
 		}
 
 		return null;
 	}
 
 	public void startTimer() {
-		gameTimer = new Timer(SnakeService.class.getSimpleName() + " Timer");
-		gameTimer.scheduleAtFixedRate(new TimerTask() {
+		this.gameTimer = new Timer(SnakeService.class.getSimpleName() + " Timer");
+		this.gameTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
 				tick();
@@ -106,7 +106,7 @@ public class SnakeService {
 		Collection<Snake> allSnakes = getSnakes();
 		List<Map<String, Object>> updateData = new ArrayList<>();
 		for (Snake snake : allSnakes) {
-			snake.update(allSnakes, eventMessenger);
+			snake.update(allSnakes, this.eventMessenger);
 
 			Map<String, Object> locationsData = snake.getLocationsData();
 			if (locationsData != null) {
@@ -115,13 +115,13 @@ public class SnakeService {
 		}
 
 		if (!updateData.isEmpty()) {
-			eventMessenger.sendToAll("snake",
+			this.eventMessenger.sendToAll("snake",
 					SnakeMessage.createUpdateMessage(updateData));
 		}
 	}
 
 	private Collection<Snake> getSnakes() {
-		return Collections.unmodifiableCollection(snakes.values());
+		return Collections.unmodifiableCollection(this.snakes.values());
 	}
 
 	public List<Map<String, Object>> createJoinData() {
@@ -137,7 +137,7 @@ public class SnakeService {
 
 	@WampCallListener
 	public void changeDirection(String message) {
-		Snake snake = snakes.get(currentSnakeId.getId());
+		Snake snake = this.snakes.get(this.currentSnakeId.getId());
 		if (snake != null) {
 			if ("west".equals(message)) {
 				snake.setDirection(Direction.WEST);

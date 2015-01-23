@@ -67,14 +67,14 @@ public class Snake {
 	}
 
 	private synchronized void reward(EventMessenger eventMessenger) {
-		length++;
+		this.length++;
 		eventMessenger.sendTo("snake", SnakeMessage.createKillMessage(),
 				getWebSocketSessionId());
 	}
 
 	public synchronized void update(Collection<Snake> snakes,
 			EventMessenger eventMessenger) {
-		Location nextLocation = head.getAdjacentLocation(direction);
+		Location nextLocation = this.head.getAdjacentLocation(this.direction);
 		if (nextLocation.x >= SnakeUtils.PLAYFIELD_WIDTH) {
 			nextLocation.x = 0;
 		}
@@ -87,12 +87,12 @@ public class Snake {
 		if (nextLocation.y < 0) {
 			nextLocation.y = SnakeUtils.PLAYFIELD_HEIGHT;
 		}
-		if (direction != Direction.NONE) {
-			tail.addFirst(head);
-			if (tail.size() > length) {
-				tail.removeLast();
+		if (this.direction != Direction.NONE) {
+			this.tail.addFirst(this.head);
+			if (this.tail.size() > this.length) {
+				this.tail.removeLast();
 			}
-			head = nextLocation;
+			this.head = nextLocation;
 		}
 
 		handleCollisions(snakes, eventMessenger);
@@ -100,11 +100,12 @@ public class Snake {
 
 	private void handleCollisions(Collection<Snake> snakes, EventMessenger eventMessenger) {
 		for (Snake snake : snakes) {
-			boolean headCollision = id != snake.id && snake.getHead().equals(head);
-			boolean tailCollision = snake.getTail().contains(head);
+			boolean headCollision = this.id != snake.id
+					&& snake.getHead().equals(this.head);
+			boolean tailCollision = snake.getTail().contains(this.head);
 			if (headCollision || tailCollision) {
 				kill(eventMessenger);
-				if (id != snake.id) {
+				if (this.id != snake.id) {
 					snake.reward(eventMessenger);
 				}
 			}
@@ -112,11 +113,11 @@ public class Snake {
 	}
 
 	public synchronized Location getHead() {
-		return head;
+		return this.head;
 	}
 
 	public synchronized Collection<Location> getTail() {
-		return tail;
+		return this.tail;
 	}
 
 	public synchronized void setDirection(Direction direction) {
@@ -125,12 +126,12 @@ public class Snake {
 
 	public synchronized Map<String, Object> getLocationsData() {
 		// Only create location data if it changed
-		if (lastHead == null || !lastHead.equals(head)) {
-			lastHead = head;
+		if (this.lastHead == null || !this.lastHead.equals(this.head)) {
+			this.lastHead = this.head;
 
 			List<Location> locations = new ArrayList<>();
-			locations.add(head);
-			locations.addAll(tail);
+			locations.add(this.head);
+			locations.addAll(this.tail);
 
 			Map<String, Object> es = new HashMap<>();
 			es.put("id", getId());
@@ -142,14 +143,14 @@ public class Snake {
 	}
 
 	public String getWebSocketSessionId() {
-		return webSocketSessionId;
+		return this.webSocketSessionId;
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getHexColor() {
-		return hexColor;
+		return this.hexColor;
 	}
 }

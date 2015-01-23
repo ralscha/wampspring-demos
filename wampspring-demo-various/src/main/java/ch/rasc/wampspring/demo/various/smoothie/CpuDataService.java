@@ -29,19 +29,23 @@ public class CpuDataService {
 
 	@Scheduled(initialDelay = 5000, fixedDelay = 1000)
 	public void sendData() {
-		if (subscriptionRegistry.hasSubscriptions()) {
+		if (this.subscriptionRegistry.hasSubscriptions()) {
 			// System.out.println("SENDING DATA:"+System.nanoTime());
 			final CpuData cpuData = new CpuData();
-			cpuData.setHost1(new double[] { random.nextDouble(), random.nextDouble(),
-					random.nextDouble(), random.nextDouble() });
-			cpuData.setHost2(new double[] { random.nextDouble(), random.nextDouble(),
-					random.nextDouble(), random.nextDouble() });
-			cpuData.setHost3(new double[] { random.nextDouble(), random.nextDouble(),
-					random.nextDouble(), random.nextDouble() });
-			cpuData.setHost4(new double[] { random.nextDouble(), random.nextDouble(),
-					random.nextDouble(), random.nextDouble() });
+			cpuData.setHost1(new double[] { this.random.nextDouble(),
+					this.random.nextDouble(), this.random.nextDouble(),
+					this.random.nextDouble() });
+			cpuData.setHost2(new double[] { this.random.nextDouble(),
+					this.random.nextDouble(), this.random.nextDouble(),
+					this.random.nextDouble() });
+			cpuData.setHost3(new double[] { this.random.nextDouble(),
+					this.random.nextDouble(), this.random.nextDouble(),
+					this.random.nextDouble() });
+			cpuData.setHost4(new double[] { this.random.nextDouble(),
+					this.random.nextDouble(), this.random.nextDouble(),
+					this.random.nextDouble() });
 
-			eventMessenger.sendToAll(SMOOTHIE_TOPIC_URI, cpuData);
+			this.eventMessenger.sendToAll(SMOOTHIE_TOPIC_URI, cpuData);
 		}
 	}
 

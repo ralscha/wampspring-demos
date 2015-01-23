@@ -33,7 +33,7 @@ public class BookService {
 		List<Book> list = BookDb.list();
 
 		if (StringUtils.hasText(readRequest.getSort())) {
-			List<SortInfo> si = objectMapper.readValue(readRequest.getSort(),
+			List<SortInfo> si = this.objectMapper.readValue(readRequest.getSort(),
 					new TypeReference<List<SortInfo>>() {
 						// nothing_here
 					});
@@ -59,7 +59,7 @@ public class BookService {
 			result.add(book);
 		}
 
-		eventMessenger.sendToAllExcept("grid:oncreate", result,
+		this.eventMessenger.sendToAllExcept("grid:oncreate", result,
 				callMessage.getSessionId());
 		return result;
 	}
@@ -74,7 +74,7 @@ public class BookService {
 			result.add(book);
 		}
 
-		eventMessenger.sendToAllExcept("grid:onupdate", result,
+		this.eventMessenger.sendToAllExcept("grid:onupdate", result,
 				callMessage.getSessionId());
 		return result;
 	}
@@ -85,6 +85,6 @@ public class BookService {
 		for (Book book : books) {
 			BookDb.delete(book);
 		}
-		eventMessenger.sendToAll("grid:ondestroy", books);
+		this.eventMessenger.sendToAll("grid:ondestroy", books);
 	}
 }

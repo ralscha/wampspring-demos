@@ -9,7 +9,7 @@ public class SortInfo {
 	}
 
 	public String getProperty() {
-		return property;
+		return this.property;
 	}
 
 	public void setProperty(String property) {
@@ -17,7 +17,7 @@ public class SortInfo {
 	}
 
 	public SortDirection getDirection() {
-		return direction;
+		return this.direction;
 	}
 
 	public void setDirection(SortDirection direction) {
@@ -26,7 +26,8 @@ public class SortInfo {
 
 	@Override
 	public String toString() {
-		return "SortInfo [property=" + property + ", direction=" + direction + "]";
+		return "SortInfo [property=" + this.property + ", direction=" + this.direction
+				+ "]";
 	}
 
 }

@@ -27,9 +27,9 @@ public class CarDriver {
 
 	private int redRoutePos = 0;
 
-	private List<LatLng> blueRoute;
+	private final List<LatLng> blueRoute;
 
-	private List<LatLng> redRoute;
+	private final List<LatLng> redRoute;
 
 	@Autowired
 	public CarDriver(EventMessenger eventMessenger,
@@ -37,8 +37,8 @@ public class CarDriver {
 		this.subscriptionRegistry = subscriptionRegistry;
 		this.eventMessenger = eventMessenger;
 
-		blueRoute = readLatLng("/map/route_blue.txt");
-		redRoute = readLatLng("/map/route_red.txt");
+		this.blueRoute = readLatLng("/map/route_blue.txt");
+		this.redRoute = readLatLng("/map/route_red.txt");
 	}
 
 	private static List<LatLng> readLatLng(String resource) throws IOException {
@@ -54,27 +54,27 @@ public class CarDriver {
 
 	@Scheduled(initialDelay = 1000, fixedDelay = 1000)
 	public void driveBlueCar() {
-		if (subscriptionRegistry.hasSubscriptions()) {
-			LatLng latLng = blueRoute.get(blueRoutePos);
-			blueRoutePos++;
-			if (blueRoutePos >= blueRoute.size()) {
-				blueRoutePos = 0;
+		if (this.subscriptionRegistry.hasSubscriptions()) {
+			LatLng latLng = this.blueRoute.get(this.blueRoutePos);
+			this.blueRoutePos++;
+			if (this.blueRoutePos >= this.blueRoute.size()) {
+				this.blueRoutePos = 0;
 			}
 
-			eventMessenger.sendToAll("/map/blue", latLng);
+			this.eventMessenger.sendToAll("/map/blue", latLng);
 		}
 	}
 
 	@Scheduled(initialDelay = 2000, fixedDelay = 1200)
 	public void driveRedCar() {
-		if (subscriptionRegistry.hasSubscriptions()) {
-			LatLng latLng = redRoute.get(redRoutePos);
-			redRoutePos++;
-			if (redRoutePos >= redRoute.size()) {
-				redRoutePos = 0;
+		if (this.subscriptionRegistry.hasSubscriptions()) {
+			LatLng latLng = this.redRoute.get(this.redRoutePos);
+			this.redRoutePos++;
+			if (this.redRoutePos >= this.redRoute.size()) {
+				this.redRoutePos = 0;
 			}
 
-			eventMessenger.sendToAll("/map/red", latLng);
+			this.eventMessenger.sendToAll("/map/red", latLng);
 		}
 	}
 

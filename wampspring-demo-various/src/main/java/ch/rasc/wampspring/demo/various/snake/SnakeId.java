@@ -25,11 +25,11 @@ public class SnakeId {
 	}
 
 	public String getWebSocketSessionId() {
-		return webSocketSessionId;
+		return this.webSocketSessionId;
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 }
