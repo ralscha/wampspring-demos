@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>wampspring simple demo</title>
+<script src="sockjs-0.3.4.min.js"></script>
+<script src="autobahn-0.8.2.min.js"></script>
+
+<script>
+	var path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+
+	ab._construct = function(url, protocols) {
+		return new SockJS(url);
+	};
+
+	ab.connect(path + 'wamp', function(session) {
+		console.log("Connected to ", session);
+
+		session.call("toUpperCase/test", "a test string").then(function(res) {
+			console.log('got result: ', res);
+		}, function(error, desc) {
+			console.log('call failure: ', desc);
+		});
+
+		session.subscribe("/topic/PRICE.STOCK.IBM", function(topic, event) {
+			console.log("Topic: " + topic + " / Event received: " + event);
+		});
+		session.subscribe("/topic/PRICE.STOCK.AAPL", function(topic, event) {
+			console.log("Topic: " + topic + " / Event received: " + event);
+		});
+		session.subscribe("/topic/PRICE.STOCK.MSFT", function(topic, event) {
+			console.log("Topic: " + topic + " / Event received: " + event);
+		});
+		session.subscribe("/topic/PRICE.STOCK.GOOG", function(topic, event) {
+			console.log("Topic: " + topic + " / Event received: " + event);
+		});
+
+	}, function(code, reason) {
+		console.log("Connection lost (" + code + ":" + reason + ")");
+	}, {
+		skipSubprotocolCheck: true
+	});
+</script>
+</head>
+<body>
+	<h1>Hello</h1>
+</body>
+</html>
