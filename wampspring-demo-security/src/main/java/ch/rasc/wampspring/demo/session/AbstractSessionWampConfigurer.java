@@ -1,5 +1,7 @@
 package ch.rasc.wampspring.demo.session;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -8,11 +10,11 @@ import org.springframework.session.ExpiringSession;
 import org.springframework.session.SessionRepository;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import ch.rasc.wampspring.config.DefaultWampConfiguration;
+import ch.rasc.wampspring.config.WampConfigurerAdapter;
 import ch.rasc.wampspring.config.WebSocketTransportRegistration;
 
-public class DefaultSessionWampConfiguration<S extends ExpiringSession> extends
-		DefaultWampConfiguration {
+public abstract class AbstractSessionWampConfigurer<S extends ExpiringSession> extends
+		WampConfigurerAdapter {
 
 	@Autowired
 	private SessionRepository<S> sessionRepository;
@@ -50,8 +52,8 @@ public class DefaultSessionWampConfiguration<S extends ExpiringSession> extends
 	 * WebSocket properties to enable updating the last accessed time.
 	 */
 	@Override
-	public HandshakeInterceptor defaultHandshakeInterceptors() {
-		return new SessionRepositoryHandshakeInterceptor();
+	public void addHandshakeInterceptors(List<HandshakeInterceptor> handshakeInterceptors) {
+		handshakeInterceptors.add(new SessionRepositoryHandshakeInterceptor());
 	}
 
 	/*

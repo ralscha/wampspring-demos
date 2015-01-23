@@ -15,7 +15,7 @@
 	ab.connect(path + 'wamp', function(session) {
 		console.log("Connected to ", session);
 
-		session.call("toUpperCase/test", "a test string").then(function(res) {
+		session.call("toUpperCase", "a test string").then(function(res) {
 			console.log('got result: ', res);
 		}, function(error, desc) {
 			console.log('call failure: ', desc);
@@ -42,6 +42,7 @@
 </script>
 </head>
 <body>
+    <a href="logout">LOGOUT</a>
 	<h1>Hello</h1>
 </body>
 </html>

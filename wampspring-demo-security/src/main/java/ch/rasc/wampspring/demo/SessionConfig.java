@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo.security;
+package ch.rasc.wampspring.demo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,10 @@ import org.springframework.session.SessionRepository;
 import org.springframework.session.web.http.CookieHttpSessionStrategy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
 
+import ch.rasc.wampspring.demo.session.AbstractSessionWampConfigurer;
+
 @Configuration
-public class SessionConfig {
+public class SessionConfig extends AbstractSessionWampConfigurer<ExpiringSession> {
 
 	@Bean
 	public SessionRepository<ExpiringSession> sessionRepository() {

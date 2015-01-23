@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo.security;
+package ch.rasc.wampspring.demo;
 
 import java.util.Random;
 
