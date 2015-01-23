@@ -19,7 +19,7 @@ public class WampConfig extends DefaultWampConfiguration {
 
 	@Override
 	public ObjectMapper objectMapper() {
-		return objectMapper;
+		return this.objectMapper;
 	}
 
 	@Override

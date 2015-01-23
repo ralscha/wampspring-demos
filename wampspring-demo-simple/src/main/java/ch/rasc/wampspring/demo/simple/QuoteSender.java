@@ -15,16 +15,16 @@ public class QuoteSender {
 	private final static String[] quotes = { "GOOG", "AAPL", "MSFT", "IBM" };
 
 	private final EventMessenger eventMessenger;
-	
+
 	@Autowired
 	public QuoteSender(EventMessenger eventMessenger) {
 		this.eventMessenger = eventMessenger;
 	}
-	
+
 	@Scheduled(initialDelay = 5000, fixedDelay = 2000)
 	public void sendStockQuotes() {
-		eventMessenger.sendToAll("/topic/PRICE.STOCK." + quotes[random.nextInt(4)],
+		this.eventMessenger.sendToAll("/topic/PRICE.STOCK." + quotes[random.nextInt(4)],
 				random.nextDouble());
 	}
-	
+
 }

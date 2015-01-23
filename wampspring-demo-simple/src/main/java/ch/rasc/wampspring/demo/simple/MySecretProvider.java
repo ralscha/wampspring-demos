@@ -10,13 +10,13 @@ public class MySecretProvider implements AuthenticationSecretProvider {
 	private final Map<String, String> secretDb = new HashMap<>();
 
 	public MySecretProvider() {
-		secretDb.put("a", "secretofa");
-		secretDb.put("b", "secretofb");
+		this.secretDb.put("a", "secretofa");
+		this.secretDb.put("b", "secretofb");
 	}
 
 	@Override
 	public String getSecret(String authKey) {
-		return secretDb.get(authKey);
+		return this.secretDb.get(authKey);
 	}
 
 }
