@@ -65,14 +65,14 @@ public class Subscriber {
 		@Override
 		protected void handleTextMessage(WebSocketSession session, TextMessage message)
 				throws Exception {
-			WampMessage wampMessage = WampMessage.fromJson(jsonFactory,
+			WampMessage wampMessage = WampMessage.fromJson(this.jsonFactory,
 					message.getPayload());
 
 			if (wampMessage instanceof WelcomeMessage) {
 				System.out.println("WELCOME received: " + wampMessage);
 
 				SubscribeMessage subscribe = new SubscribeMessage("/test/myqueue");
-				session.sendMessage(new TextMessage(subscribe.toJson(jsonFactory)));
+				session.sendMessage(new TextMessage(subscribe.toJson(this.jsonFactory)));
 			}
 			else if (wampMessage instanceof EventMessage) {
 				latch.countDown();

@@ -27,7 +27,7 @@ public class TestService {
 	}
 
 	public void sendStockQuotes() {
-		eventMessenger.sendToAll("", "");
+		this.eventMessenger.sendToAll("", "");
 	}
 
 }

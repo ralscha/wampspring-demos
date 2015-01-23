@@ -34,13 +34,13 @@ public class Server extends DefaultWampConfiguration {
 
 	@Override
 	public ObjectMapper objectMapper() {
-		return objectMapper;
+		return this.objectMapper;
 	}
 
 	@Override
 	@Bean
 	public Executor clientInboundChannelExecutor() {
-		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(env);
+		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(this.env);
 		executor.setName("clientInboundChannelExecutor");
 		executor.setBacklog(2048);
 		executor.setProducerType(ProducerType.MULTI);
@@ -51,7 +51,7 @@ public class Server extends DefaultWampConfiguration {
 	@Override
 	@Bean
 	public Executor clientOutboundChannelExecutor() {
-		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(env);
+		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(this.env);
 		executor.setName("clientOutboundChannelExecutor");
 		executor.setBacklog(2048);
 		executor.setProducerType(ProducerType.MULTI);
@@ -62,7 +62,7 @@ public class Server extends DefaultWampConfiguration {
 	@Override
 	@Bean
 	public Executor brokerChannelExecutor() {
-		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(env);
+		RingBufferAsyncTaskExecutor executor = new RingBufferAsyncTaskExecutor(this.env);
 		executor.setName("brokerChannelExecutor");
 		executor.setBacklog(1024);
 		executor.setProducerType(ProducerType.SINGLE);

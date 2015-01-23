@@ -29,28 +29,29 @@ public class TestTextWebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message)
 			throws Exception {
 
-		WampMessage wampMessage = WampMessage.fromJson(jsonFactory, message.getPayload());
+		WampMessage wampMessage = WampMessage.fromJson(this.jsonFactory,
+				message.getPayload());
 
 		if (wampMessage instanceof WelcomeMessage) {
 			System.out.println("WELCOME received: " + wampMessage);
 		}
 		else if (wampMessage instanceof CallResultMessage) {
-			success++;
-			latch.countDown();
+			this.success++;
+			this.latch.countDown();
 		}
 		else if (wampMessage instanceof CallErrorMessage) {
-			error++;
-			latch.countDown();
+			this.error++;
+			this.latch.countDown();
 		}
 
 	}
 
 	public int getSuccess() {
-		return success;
+		return this.success;
 	}
 
 	public int getError() {
-		return error;
+		return this.error;
 	}
 
 }
