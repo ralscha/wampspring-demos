@@ -15,8 +15,6 @@ import reactor.spring.context.config.EnableReactor;
 import reactor.spring.core.task.RingBufferAsyncTaskExecutor;
 import ch.rasc.wampspring.config.DefaultWampConfiguration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @SpringBootApplication
 @EnableScheduling
 @EnableReactor
@@ -27,15 +25,7 @@ public class Server extends DefaultWampConfiguration {
 	}
 
 	@Autowired
-	ObjectMapper objectMapper;
-
-	@Autowired
 	Environment env;
-
-	@Override
-	public ObjectMapper objectMapper() {
-		return this.objectMapper;
-	}
 
 	@Override
 	@Bean
