@@ -1,25 +1,14 @@
 package ch.rasc.wampspring.demo.various;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import ch.rasc.wampspring.config.DefaultWampConfiguration;
+import ch.rasc.wampspring.config.EnableWamp;
+import ch.rasc.wampspring.config.WampConfigurerAdapter;
 import ch.rasc.wampspring.config.WampEndpointRegistry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Configuration
-public class WampConfig extends DefaultWampConfiguration {
-
-	// Reusing the objectMapper that spring boot provides
-
-	@Autowired
-	ObjectMapper objectMapper;
-
-	@Override
-	public ObjectMapper objectMapper() {
-		return this.objectMapper;
-	}
+@EnableWamp
+public class WampConfig extends WampConfigurerAdapter {
 
 	@Override
 	public void registerWampEndpoints(WampEndpointRegistry registry) {
