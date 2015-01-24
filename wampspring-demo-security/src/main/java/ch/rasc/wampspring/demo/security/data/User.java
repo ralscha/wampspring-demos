@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.wampspring.demo.data;
+package ch.rasc.wampspring.demo.security.data;
 
 import java.io.Serializable;
 

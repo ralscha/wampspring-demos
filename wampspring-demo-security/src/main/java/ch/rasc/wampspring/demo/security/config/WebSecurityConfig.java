@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo;
+package ch.rasc.wampspring.demo.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class WebSecurityConfig {
 			auth.userDetailsService(userDetailsService).passwordEncoder(
 					new BCryptPasswordEncoder());
 		}
-		
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			//@formatter:off

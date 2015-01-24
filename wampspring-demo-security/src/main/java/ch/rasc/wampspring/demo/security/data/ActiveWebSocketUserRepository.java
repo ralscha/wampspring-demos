@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo.data;
+package ch.rasc.wampspring.demo.security.data;
 
 import java.util.List;
 

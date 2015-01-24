@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package ch.rasc.wampspring.demo;
+package ch.rasc.wampspring.demo.security;
 
-import java.security.Principal;
-import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -25,15 +25,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampSubscribeListener;
 import ch.rasc.wampspring.annotation.WampUnsubscribeListener;
-import ch.rasc.wampspring.demo.data.ActiveWebSocketUser;
-import ch.rasc.wampspring.demo.data.ActiveWebSocketUserRepository;
-import ch.rasc.wampspring.demo.data.InstantMessage;
-import ch.rasc.wampspring.demo.data.User;
+import ch.rasc.wampspring.demo.security.data.ActiveWebSocketUser;
+import ch.rasc.wampspring.demo.security.data.ActiveWebSocketUserRepository;
+import ch.rasc.wampspring.demo.security.data.InstantMessage;
+import ch.rasc.wampspring.demo.security.data.User;
 import ch.rasc.wampspring.handler.WampSession;
+import ch.rasc.wampspring.user.UserEventMessenger;
 
 /**
  * Controller for managing {@link Message} instances.
@@ -44,14 +44,16 @@ import ch.rasc.wampspring.handler.WampSession;
 @Controller
 @RequestMapping("/")
 public class MessageController {
-	private final EventMessenger eventMessenger;
+
+	private final UserEventMessenger userEventMessenger;
+
 	private final ActiveWebSocketUserRepository activeUserRepository;
 
 	@Autowired
 	public MessageController(ActiveWebSocketUserRepository activeUserRepository,
-			EventMessenger eventMessenger) {
+			UserEventMessenger userEventMessenger) {
 		this.activeUserRepository = activeUserRepository;
-		this.eventMessenger = eventMessenger;
+		this.userEventMessenger = userEventMessenger;
 	}
 
 	@RequestMapping("")
@@ -61,39 +63,45 @@ public class MessageController {
 
 	@WampCallListener("/im")
 	public void im(InstantMessage im, @AuthenticationPrincipal User currentUser) {
-		System.out.println(im);
-		System.out.println(currentUser);
-		// im.setFrom(currentUser.getEmail());
+		im.setFrom(currentUser.getEmail());
+
+		Set<String> sendToUsers = new HashSet<>();
+		sendToUsers.add(im.getTo());
+		sendToUsers.add(im.getFrom());
+		this.userEventMessenger.sendToUsers("/messages", im, sendToUsers);
+
 		// messagingTemplate.convertAndSendToUser(im.getTo(), "/queue/messages", im);
 		// messagingTemplate.convertAndSendToUser(im.getFrom(), "/queue/messages", im);
 	}
 
 	@WampCallListener("/users")
-	public List<String> subscribeMessages(Principal principal) {
-		System.out.println(principal.getName());
+	public List<String> subscribeMessages() {
 		return this.activeUserRepository.findAllActiveUsers();
 	}
 
-	@WampSubscribeListener("/messages")
-	public void subscribeUser(@AuthenticationPrincipal User currentUser,
-			Principal principal, WampSession session) {
-		System.out.println(currentUser);
-		System.out.println(principal);
+	@WampSubscribeListener(value = "/messages", replyTo = "/signin", excludeSender = true)
+	public String subscribeUser(@AuthenticationPrincipal User currentUser,
+			WampSession session) {
+
 		this.activeUserRepository.save(new ActiveWebSocketUser(session.getSessionId(),
-				principal.getName(), Calendar.getInstance()));
-		this.eventMessenger.sendToAllExcept("/signin", principal.getName(), session.getSessionId());
+				currentUser.getEmail()));
+
+		return currentUser.getEmail();
 	}
 
-	@WampUnsubscribeListener("/messages")
-	public void unsubscribeUser(WampSession session) {
+	@WampUnsubscribeListener(value = "/messages", replyTo = "/signout",
+			excludeSender = true)
+	public String unsubscribeUser(WampSession session) {
+
 		ActiveWebSocketUser user = this.activeUserRepository.findOne(session
 				.getSessionId());
+
 		if (user == null) {
-			return;
+			return null;
 		}
 
 		this.activeUserRepository.delete(session.getSessionId());
-		this.eventMessenger.sendToAllExcept("/signout", user.getUsername(), session.getSessionId());
+		return user.getUsername();
 	}
 
 }

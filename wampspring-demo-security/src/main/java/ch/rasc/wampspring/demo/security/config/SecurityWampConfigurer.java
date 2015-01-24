@@ -1,0 +1,18 @@
+package ch.rasc.wampspring.demo.security.config;
+
+import org.springframework.context.annotation.Configuration;
+
+import ch.rasc.wampspring.security.AbstractSecurityWampConfigurer;
+import ch.rasc.wampspring.security.WampMessageSecurityMetadataSourceRegistry;
+
+@Configuration
+public class SecurityWampConfigurer extends AbstractSecurityWampConfigurer {
+
+	@Override
+	protected void configureInbound(WampMessageSecurityMetadataSourceRegistry messages) {
+		messages.wampDestPublishMatchers("/queue/**", "/topic/**").denyAll()
+				.wampDestSubscribeMatchers("/queue/**/*-user*", "/topic/**/*-user*")
+				.denyAll().anyMessage().authenticated();
+	}
+
+}

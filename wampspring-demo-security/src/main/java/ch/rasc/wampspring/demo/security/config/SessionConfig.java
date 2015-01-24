@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo;
+package ch.rasc.wampspring.demo.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

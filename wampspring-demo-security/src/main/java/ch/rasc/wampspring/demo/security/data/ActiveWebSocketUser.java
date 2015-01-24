@@ -1,27 +1,28 @@
-package ch.rasc.wampspring.demo.data;
+package ch.rasc.wampspring.demo.security.data;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class ActiveWebSocketUser {
+
 	@Id
 	private String id;
 
 	private String username;
 
-	private Calendar connectionTime;
+	private Date connectionTime;
 
 	public ActiveWebSocketUser() {
+		// default constructor
 	}
 
-	public ActiveWebSocketUser(String id, String username, Calendar connectionTime) {
-		super();
+	public ActiveWebSocketUser(String id, String username) {
 		this.id = id;
 		this.username = username;
-		this.connectionTime = connectionTime;
+		this.connectionTime = new Date();
 	}
 
 	public String getUsername() {
@@ -32,11 +33,11 @@ public class ActiveWebSocketUser {
 		this.username = username;
 	}
 
-	public Calendar getConnectionTime() {
+	public Date getConnectionTime() {
 		return this.connectionTime;
 	}
 
-	public void setConnectionTime(Calendar connectionTime) {
+	public void setConnectionTime(Date connectionTime) {
 		this.connectionTime = connectionTime;
 	}
 

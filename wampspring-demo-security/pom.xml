@@ -20,7 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>ch.rasc.wampspring.demo.Application</start-class>
+		<start-class>ch.rasc.wampspring.demo.security.Application</start-class>
 		<java.version>1.8</java.version>
 		<spring-security.version>4.0.0.RC1</spring-security.version>
 	</properties>
@@ -104,7 +104,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.185</version>
 		</dependency>
 	</dependencies>
 

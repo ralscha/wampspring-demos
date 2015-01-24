@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2002-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.rasc.wampspring.demo;
-
-import java.util.Collection;
+package ch.rasc.wampspring.demo.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import ch.rasc.wampspring.demo.data.User;
-import ch.rasc.wampspring.demo.data.UserRepository;
+import ch.rasc.wampspring.demo.security.data.User;
+import ch.rasc.wampspring.demo.security.data.UserRepository;
 
 /**
  * @author Rob Winch
@@ -51,42 +47,4 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
 		return new CustomUserDetails(user);
 	}
 
-	private final static class CustomUserDetails extends User implements UserDetails {
-
-		private CustomUserDetails(User user) {
-			super(user);
-		}
-
-		@Override
-		public Collection<? extends GrantedAuthority> getAuthorities() {
-			return AuthorityUtils.createAuthorityList("ROLE_USER");
-		}
-
-		@Override
-		public String getUsername() {
-			return getEmail();
-		}
-
-		@Override
-		public boolean isAccountNonExpired() {
-			return true;
-		}
-
-		@Override
-		public boolean isAccountNonLocked() {
-			return true;
-		}
-
-		@Override
-		public boolean isCredentialsNonExpired() {
-			return true;
-		}
-
-		@Override
-		public boolean isEnabled() {
-			return true;
-		}
-
-		private static final long serialVersionUID = 5639683223516504866L;
-	}
 }

@@ -1,4 +1,4 @@
-package ch.rasc.wampspring.demo;
+package ch.rasc.wampspring.demo.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
