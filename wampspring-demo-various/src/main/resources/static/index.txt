@@ -1,0 +1,56 @@
+<!-- 			
+				
+
+					
+
+					
+					<li>
+					  <strong><a class="demolink" href="twitterdemo/index.html">Twitter</a></strong>
+					  <p>Twitter demo that uses the <a href="https://github.com/twitter/hbc">Streaming API from Twitter</a> and tracks these terms 
+					  "ExtJS", "#extjs", "#SenchaTouch", "Sencha", "#java", "java7", "java8", "#websocket", "#SpringFramework", "html5" and "javascript".</p>
+					</li>	
+					<li>
+					  <strong><a class="demolink" href="earthquakedemo/index.html">Earthquake Demo</a></strong>
+					  <p>
+					  Simplified copy of the <a href="https://github.com/bijukunjummen/si-spring-websockets">si-spring-websockets application</a>. This demo does not
+					  use Spring Integration and RabbitMQ. Instead the polling to earthquake.usgs.gov is done with a simple scheduled spring bean method and the last
+					  result is stored in memory.
+					  </p>
+					</li>					
+					<li>
+					  <strong><a class="demolink" href="portfoliodemo/index.html">Portfolio</a></strong>
+					  <p>Copy of the traditional portfolio demo from <a href="https://github.com/rstoyanchev">Rossen Stoyanchev's</a> <a href="https://github.com/rstoyanchev/spring-websocket-portfolio">rstoyanchev/spring-websocket-portfolio</a> project</p>
+					</li>
+
+					<li>
+					  <strong><a class="demolink" href="drawboarddemo/index.html">Drawboard Example</a></strong>
+					  <p>Port of the drawboard example from Tomcat 8 RC5. Websocket only example.</p>
+					</li>
+					<li>
+					  <strong><a class="demolink" href="brainshop/index.html">Brainshop Example</a></strong>
+					  <p>Web-based Brainstorming. Port of this <a href="https://code.google.com/p/brainshop/">node.js demo application</a>  </p>
+					</li>	
+					<li>
+					  <strong><a class="demolink" href="tennisdemo/index.html">Tennis Demo</a></strong>
+					  <p>Realtime tennis results. Port of this demo application <a href="https://github.com/mgreau/javaee7-websocket">mgreau / javaee7-websocket</a></p>
+					</li>
+					<li>
+					  <strong><a class="demolink" href="echatdemo/index.html">Chat with WebRTC</a></strong>
+					  <p>
+					  An enhanced chat application with WebRTC.
+					  <br>
+					  To start a WebRTC connection there need to be two users connected to the chat. In Chrome you could also start two browser instances
+					  and connect with two different names to the chat.  
+					  <br>
+					  Then one user selectes the other user. If both clients are WebRTC capable the button "Start Peer-to-Peer Connection" becomes enabled.
+					  If everything goes right you should see your video on the left and the video from the other user on the right side.<br>  
+					  The SDP and ICE messages between the two peers are exchanged with WAMP. As soon as the connection is established it's a peer to peer connection that 
+					  no longer needs a server. For more information about WebRTC see the article on <a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/">html5rocks</a>.
+					  <br>
+					  The peer-to-peer part should also work over the internet even if both users are behind a NAT/Firewall. The application uses a STUN server (stun.stunprotocol.org) for external ip and port discovery.
+					  But it may not work everywhere and everytime. When NAT 'hole punching' fails it needs a TURN server to relay the traffic, but I haven't found a free and public available 
+					  TURN server that I could use for this demo.
+					  </p>
+					</li>				
+				</ul>
+			</section> -->
