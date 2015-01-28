@@ -23,20 +23,15 @@ Ext.define ('Ext.ux.ws.wamp.Manager', {
 	retryDelay: 300,
 	
 	constructor: function(config) {
-				
-		var path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
-
+					
 		if (window.location.search === '?websocket') {
-			this.baseUri = (window.location.protocol == "https:" ? "wss://" : "ws://") + window.location.host + path + "../ws";    
-			this.wsuri = this.baseUri + '../wamp';
+			this.baseUri = (window.location.protocol == "https:" ? "wss://" : "ws://") + window.location.host + serverPathUrl;    			
 		}
 		else {			
-			ab._construct = function(url, protocols) {
-				return new SockJS(url);
-			};
-			this.baseUri = path;
-			this.wsuri = this.baseUri + '../wamp';
+			this.baseUri = serverPathUrl;
 		}
+		
+		this.wsuri = wsURL;
 		
 		Ext.apply(this, config || {});
         this.addEvents(
