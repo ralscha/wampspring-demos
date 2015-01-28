@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampSubscribeListener;
 import ch.rasc.wampspring.annotation.WampUnsubscribeListener;
+import ch.rasc.wampspring.config.WampSession;
 import ch.rasc.wampspring.demo.security.data.ActiveWebSocketUser;
 import ch.rasc.wampspring.demo.security.data.ActiveWebSocketUserRepository;
 import ch.rasc.wampspring.demo.security.data.InstantMessage;
 import ch.rasc.wampspring.demo.security.data.User;
-import ch.rasc.wampspring.handler.WampSession;
 import ch.rasc.wampspring.user.UserEventMessenger;
 
 /**
@@ -83,7 +83,7 @@ public class MessageController {
 	public String subscribeUser(@AuthenticationPrincipal User currentUser,
 			WampSession session) {
 
-		this.activeUserRepository.save(new ActiveWebSocketUser(session.getSessionId(),
+		this.activeUserRepository.save(new ActiveWebSocketUser(session.getWebSocketSessionId(),
 				currentUser.getEmail()));
 
 		return currentUser.getEmail();
@@ -94,13 +94,13 @@ public class MessageController {
 	public String unsubscribeUser(WampSession session) {
 
 		ActiveWebSocketUser user = this.activeUserRepository.findOne(session
-				.getSessionId());
+				.getWebSocketSessionId());
 
 		if (user == null) {
 			return null;
 		}
 
-		this.activeUserRepository.delete(session.getSessionId());
+		this.activeUserRepository.delete(session.getWebSocketSessionId());
 		return user.getUsername();
 	}
 
