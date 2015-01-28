@@ -1,6 +1,7 @@
 package ch.rasc.wampspring.demo.various.scheduler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ch.rasc.wampspring.EventMessenger;
+import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampPublishListener;
 import ch.rasc.wampspring.message.PublishMessage;
-import ch.rasc.wampspring.message.WampMessageHeader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,23 +25,22 @@ public class SchedulerHandler {
 
 	private final static ObjectMapper mapper = new ObjectMapper();
 
-	@WampPublishListener("schdemo#clientDoInitialLoad")
-	public void clientDoInitialLoad(PublishMessage message) {
-		String sessionId = message.getHeader(WampMessageHeader.WEBSOCKET_SESSION_ID);
-		this.eventMessenger.sendTo("schdemo#serverDoInitialLoad",
-				Collections.singletonMap("data", CustomEventDb.list()),
-				Collections.singleton(sessionId));
+	@WampCallListener(value = "schdemo#doInitialLoad")
+	public Map<String, Collection<CustomEvent>> doInitialLoad() {
+		return Collections.singletonMap("data", CustomEventDb.list());
 	}
 
-	@WampPublishListener("schdemo#clientDoUpdate")
-	public void clientDoUpdate(PublishMessage message, CustomEvent record) {
+	@WampPublishListener(value = "schdemo#clientDoUpdate",
+			replyTo = "schdemo#serverDoUpdate", excludeSender = true)
+	public CustomEvent update(CustomEvent record) {
 		CustomEventDb.update(record);
-		this.eventMessenger.sendToAllExcept("schdemo#serverDoUpdate", record,
-				message.getSessionId());
+		return record;
 	}
 
-	@WampPublishListener("schdemo#clientDoAdd")
-	public void clientDoAdd(PublishMessage message, List<Map<String, Object>> records) {
+	@WampPublishListener(value = "schdemo#clientDoAdd", replyTo = "schdemo#serverDoAdd",
+			excludeSender = true)
+	public Map<String, List<Object>> add(PublishMessage message,
+			List<Map<String, Object>> records) {
 		List<Object> updatedRecords = new ArrayList<>();
 		List<Map<String, Object>> ids = new ArrayList<>();
 
@@ -59,19 +59,18 @@ public class SchedulerHandler {
 			ids.add(result);
 		}
 
-		this.eventMessenger.sendToAllExcept("schdemo#serverDoAdd",
-				Collections.singletonMap("records", updatedRecords),
-				message.getSessionId());
-		this.eventMessenger.sendToAll("schdemo#serverSyncId",
-				Collections.singletonMap("records", ids));
+		this.eventMessenger
+				.sendTo("schdemo#serverSyncId", Collections.singletonMap("records", ids),
+						message.getWebSocketSessionId());
+
+		return Collections.singletonMap("records", updatedRecords);
 	}
 
-	@WampPublishListener("schdemo#clientDoRemove")
-	public void clientDoRemove(PublishMessage message, List<Integer> ids) {
+	@WampPublishListener(value = "schdemo#clientDoRemove",
+			replyTo = "schdemo#serverDoRemove", excludeSender = true)
+	public Map<String, List<Integer>> remove(List<Integer> ids) {
 		CustomEventDb.delete(ids);
-
-		this.eventMessenger.sendToAllExcept("schdemo#serverDoRemove",
-				Collections.singletonMap("ids", ids), message.getSessionId());
+		return Collections.singletonMap("ids", ids);
 	}
 
 }
