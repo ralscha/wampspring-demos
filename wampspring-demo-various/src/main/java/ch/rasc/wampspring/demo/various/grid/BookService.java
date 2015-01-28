@@ -28,7 +28,7 @@ public class BookService {
 	@WampCallListener("grid:read")
 	public Collection<Book> bookRead(CallMessage callMessage, StoreReadRequest readRequest)
 			throws Throwable {
-		System.out.println("bookRead:" + callMessage.getSessionId());
+		System.out.println("bookRead:" + callMessage.getWebSocketSessionId());
 
 		List<Book> list = BookDb.list();
 
@@ -51,7 +51,7 @@ public class BookService {
 
 	@WampCallListener("grid:create")
 	public List<Book> bookCreate(CallMessage callMessage, List<Book> books) {
-		System.out.println("bookCreate:" + callMessage.getSessionId());
+		System.out.println("bookCreate:" + callMessage.getWebSocketSessionId());
 
 		List<Book> result = new ArrayList<>();
 		for (Book book : books) {
@@ -60,13 +60,13 @@ public class BookService {
 		}
 
 		this.eventMessenger.sendToAllExcept("grid:oncreate", result,
-				callMessage.getSessionId());
+				callMessage.getWebSocketSessionId());
 		return result;
 	}
 
 	@WampCallListener("grid:update")
 	public List<Book> bookUpdate(CallMessage callMessage, List<Book> books) {
-		System.out.println("bookUpdate:" + callMessage.getSessionId());
+		System.out.println("bookUpdate:" + callMessage.getWebSocketSessionId());
 
 		List<Book> result = new ArrayList<>();
 		for (Book book : books) {
@@ -75,13 +75,13 @@ public class BookService {
 		}
 
 		this.eventMessenger.sendToAllExcept("grid:onupdate", result,
-				callMessage.getSessionId());
+				callMessage.getWebSocketSessionId());
 		return result;
 	}
 
 	@WampCallListener("grid:destroy")
 	public void bookDestroy(CallMessage callMessage, List<Book> books) throws Throwable {
-		System.out.println("bookDestroy:" + callMessage.getSessionId());
+		System.out.println("bookDestroy:" + callMessage.getWebSocketSessionId());
 		for (Book book : books) {
 			BookDb.delete(book);
 		}
