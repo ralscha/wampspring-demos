@@ -4,9 +4,6 @@ Ext.define('App.store.mixin.WampIO', {
 
 		var me = this;
 		
-		absession.subscribe('schdemo#serverDoInitialLoad', function(topic, event) {
-			me.onInitialLoad(event);
-		});
 		absession.subscribe('schdemo#serverDoUpdate', function(topic, event) {
 			me.onRemoteUpdate(event);
 		});
@@ -32,7 +29,9 @@ Ext.define('App.store.mixin.WampIO', {
 		this.addMyListeners();
 
 		// Load initial data to Store from Server
-		this.doInitialLoad();
+		absession.call('schdemo#doInitialLoad').then(function(data) {
+			(me.loadData || me.setData).call(me, data.data);
+		});
 	},
 
 	addMyListeners: function() {
@@ -43,14 +42,6 @@ Ext.define('App.store.mixin.WampIO', {
 	removeMyListeners: function() {
 		// Add event listeners to store operations
 		this.un(this.myListeners);
-	},
-
-	/**
-	 * Send event to server in order to receive initial data for store from the
-	 * DB.
-	 */
-	doInitialLoad: function() {
-		absession.publish('schdemo#clientDoInitialLoad');
 	},
 
 	/* BEGIN REMOTE LISTENER METHODS */
@@ -132,13 +123,6 @@ Ext.define('App.store.mixin.WampIO', {
 		}
 
 		this.addMyListeners();
-	},
-
-	/**
-	 * Initial data loaded from server.
-	 */
-	onInitialLoad: function(data) {
-		(this.loadData || this.setData).call(this, data.data);
 	},
 
 	/* EOF REMOTE LISTENER METHODS */
