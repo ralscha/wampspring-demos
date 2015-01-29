@@ -8,19 +8,15 @@ function ApplicationModel(session) {
 
 	self.connect = function() {
 
-//		console.log('Connected ' + frame);
-//		self.username(frame.headers['user-name']);
-
-		// self.friendSignin({"username": "luke"});
-
 		session.subscribe("/user/queue/errors", function(message) {
 			self.pushNotification("Error " + message.body);
 		});
 		
-		session.call("/users").then(function(friends) {
-			for (var i = 0; i < friends.length; i++) {
+		session.call("/users").then(function(result) {
+			self.username(result.me);
+			for (var i = 0; i < result.friends.length; i++) {
 				self.friendSignin({
-					"username": friends[i]
+					"username": result.friends[i]
 				});
 			}
 		}, function(error, desc) {

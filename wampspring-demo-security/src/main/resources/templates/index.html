@@ -1,81 +1,97 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
-  <head>
-    <title>View All</title>
-  </head>
-  <body>
-    <div layout:fragment="content">
-        <div class="container">
-          <div id="heading" class="masthead">
-            <h3 class="muted">Chat Application</h3>
-          </div>
-          <div id="main-content">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody data-bind="foreach: friends()">
-                <tr>
-                  <td data-bind="text: username"></td>
-                  <td class="trade-buttons">
-                    <button class="btn btn-primary" data-bind="click: $root.conversation().chat">Chat</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>View All</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div id="heading" class="masthead">
+				<h3 class="muted">Chat Application</h3>
+			</div>
+			<div id="main-content">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>User</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: friends()">
+						<tr>
+							<td data-bind="text: username"></td>
+							<td class="trade-buttons">
+								<button class="btn btn-primary"
+									data-bind="click: $root.conversation().chat">Chat</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
-          <div id="trade-dialog" class="modal hide fade" tabindex="-1">
-            <div class="modal-body">
-              <div>Chat with <span data-bind="text: conversation().to().username"></span></div>
-              <div id="chat" style="height: 5em;max-height: 200px;overflow:scroll" data-bind="foreach: conversation().messages()">
-                <div data-bind="text: messageFormatted"></div>
-              </div>
-              <form class="form-horizontal" data-bind="submit: conversation().send">
-                <textarea data-bind="value: conversation().draft"></textarea>
-                <button class="btn btn-primary" type="submit">Send</button>
-              </form>
-            </div>
-        </div>
-            <div class="alert alert-warning">
-              <h5>Notifications</h5>
-              <ul data-bind="foreach: notifications">
-                <li data-bind="text: notification"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+				<div id="trade-dialog" class="modal hide fade" tabindex="-1">
+					<div class="modal-body" style="height: 550px;">
+						<div>
+							Chat with <span data-bind="text: conversation().to().username"></span>
+						</div>
+						<div id="chat"
+							style="height: 5em; height: 400px; overflow: scroll"
+							data-bind="foreach: conversation().messages()">
+							<div data-bind="text: messageFormatted"></div>
+						</div>
+						<form class="form-horizontal"
+							data-bind="submit: conversation().send">
+							<textarea style="width: 500px; height: 60px;" data-bind="value: conversation().draft"></textarea>
+							<button class="btn btn-primary" type="submit">Send</button>
+						</form>
+					</div>
+				</div>
+				<div class="alert alert-warning">
+					<h5>Notifications</h5>
+					<ul data-bind="foreach: notifications">
+						<li data-bind="text: notification"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
 
-    <!-- 3rd party -->
-    <script src="resources/js/jquery.js"></script>
-    <script src="resources/js/bootstrap/js/bootstrap.min.js"></script>
-    <script src="resources/js/knockout.js"></script>
-    <script src="resources/js/sockjs-0.3.4.min.js"></script>
-    <script src="resources/js/autobahn-0.8.2.min.js"></script>
+		<!-- 3rd party -->
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/bootstrap/js/bootstrap.min.js"></script>
+		<script src="resources/js/knockout.js"></script>
+		<script src="resources/js/sockjs-0.3.4.min.js"></script>
+		<script src="resources/js/autobahn-0.8.2.min.js"></script>
 
-    <!-- application -->
-    <script src="resources/js/message.js"></script>
-    <script>
-      (function() {    	  
-        var path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1) + "wamp";
-   	  	ab._construct = function(url, protocols) {
-   	  		return new SockJS(url);
-   	  	};	
+		<!-- application -->
+		<script src="resources/js/message.js"></script>
+		<script>
+			(function() {
+				var serverPathUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+				var wsURL;
 
-	   	ab.connect(path, function(session) {
-	         var appModel = new ApplicationModel(session);
-	         ko.applyBindings(appModel);	
-	         appModel.connect();
-	   	}, function(code, reason) {
-	   		console.log("Connection lost (" + code + ":" + reason + ")");
-	   	}, {
-	   		skipSubprotocolCheck: true
-	   	});
+				if (window.location.search === '?websocket') {
+					wsURL = (window.location.protocol == "https:" ? "wss://" : "ws://") + window.location.host + serverPathUrl + "ws";
+				}
+				else {
+					ab._construct = function(url, protocols) {
+						return new SockJS(url);
+					};
+					wsURL = serverPathUrl + 'wamp';
+				}
 
-      })();
-    </script>
-    </div>
-  </body>
+				ab.connect(wsURL, function(session) {
+					var appModel = new ApplicationModel(session);
+					ko.applyBindings(appModel);
+					appModel.connect();
+				}, function(code, reason) {
+					console.log("Connection lost (" + code + ":" + reason + ")");
+				}, {
+					skipSubprotocolCheck: true
+				});
+
+			})();
+		</script>
+	</div>
+</body>
 </html>

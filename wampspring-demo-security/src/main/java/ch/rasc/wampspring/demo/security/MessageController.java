@@ -15,8 +15,9 @@
  */
 package ch.rasc.wampspring.demo.security;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +76,19 @@ public class MessageController {
 	}
 
 	@WampCallListener("/users")
-	public List<String> subscribeMessages() {
-		return this.activeUserRepository.findAllActiveUsers();
+	public Map<String, Object> subscribeMessages(@AuthenticationPrincipal User currentUser) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("me", currentUser.getEmail());
+		result.put("friends", this.activeUserRepository.findAllActiveUsers());
+		return result;
 	}
 
 	@WampSubscribeListener(value = "/messages", replyTo = "/signin", excludeSender = true)
 	public String subscribeUser(@AuthenticationPrincipal User currentUser,
 			WampSession session) {
 
-		this.activeUserRepository.save(new ActiveWebSocketUser(session.getWebSocketSessionId(),
-				currentUser.getEmail()));
+		this.activeUserRepository.save(new ActiveWebSocketUser(session
+				.getWebSocketSessionId(), currentUser.getEmail()));
 
 		return currentUser.getEmail();
 	}

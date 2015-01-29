@@ -13,6 +13,7 @@ public class WampConfig extends AbstractUserWampConfigurer {
 	@Override
 	public void registerWampEndpoints(WampEndpointRegistry registry) {
 		registry.addEndpoint("/wamp").withSockJS();
+		registry.addEndpoint("/ws");
 	}
 
 }
