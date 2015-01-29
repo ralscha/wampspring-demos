@@ -23,11 +23,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import ch.rasc.wampspring.config.DefaultWampConfiguration;
+import ch.rasc.wampspring.config.WampEndpointRegistry;
 
 @Configuration
 @EnableAutoConfiguration(exclude = { HttpEncodingAutoConfiguration.class,
 		WebMvcAutoConfiguration.class })
 public class Server extends DefaultWampConfiguration {
+
+	@Override
+	protected void registerWampEndpoints(WampEndpointRegistry registry) {
+		registry.addEndpoint("/wamp");
+		registry.addEndpoint("/wampOverSockJS").withSockJS()
+				.setStreamBytesLimit(512 * 1024).setHttpMessageCacheSize(1000)
+				.setDisconnectDelay(30 * 1000);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Server.class, args);
