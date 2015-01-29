@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<name>wampspring-demo-security</name>
-	<description>Demo project for Spring Boot and wampspring</description>
+	<description>Demo project for Spring and wampspring</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
