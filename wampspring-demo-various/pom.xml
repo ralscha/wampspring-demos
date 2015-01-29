@@ -6,10 +6,10 @@
 	<groupId>ch.rasc.wampspring</groupId>
 	<artifactId>wampspring-demo-various</artifactId>
 	<version>0.0.1</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>wampspring-demo-various</name>
-	<description>Various demos for Spring Boot and wampspring</description>
+	<description>Various demos for Spring and wampspring</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
