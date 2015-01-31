@@ -27,18 +27,6 @@
 
 	<repositories>
 		<repository>
-			<id>sonatype</id>
-			<name>sonatype</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-
-		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>http://repo.spring.io/milestone</url>
@@ -85,7 +73,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-data</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
@@ -94,13 +82,13 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-session</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-		</dependency>		
+			<version>1.1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-security</artifactId>
