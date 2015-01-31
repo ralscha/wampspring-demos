@@ -37,12 +37,12 @@
 </head>
 <body>
 	<div style="float: left">
-		<canvas id="playground" width="640" height="480" />
+		<canvas id="playground" width="640" height="480"></canvas>
 	</div>
 	<div id="console-container">
-		<div id="console" />
+		<div id="console"></div>
 	</div>
-	<script type="application/javascript">
+	<script>
 		
 		
         "use strict";
@@ -105,7 +105,11 @@
         };
 
         Game.startGameLoop = function() {
-            if (window.webkitRequestAnimationFrame) {
+        	if (window.requestAnimationFrame) {
+                Game.nextFrame = function () {
+                	requestAnimationFrame(Game.run);
+                };        		
+        	} else if (window.webkitRequestAnimationFrame) {
                 Game.nextFrame = function () {
                     webkitRequestAnimationFrame(Game.run);
                 };
