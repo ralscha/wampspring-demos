@@ -16,6 +16,7 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
+		System.setProperty("spring.profiles.active", "development");
 		SpringApplication.run(Application.class, args);
 	}
 
