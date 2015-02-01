@@ -1,0 +1,7 @@
+/target/
+/.settings/
+/.classpath
+/.project
+/.springBeans
+/testdb.mv.db
+/testdb.trace.db
