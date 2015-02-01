@@ -137,8 +137,11 @@ li p {
 		  <strong>Earthquake</strong>&nbsp;&nbsp;&nbsp;
           <a href="earthquake/index.html">SockJS</a>&nbsp;&nbsp;&nbsp;
 		  <a href="earthquake/index.html?websocket">Native WebSocket</a>		  
-		  <p>
-		    Reading and displaying data from the <a target="_blank" href="http://earthquake.usgs.gov/">Earthquake Hazards Program</a>
+		  <p>		  
+		    Reading and displaying data from the <a target="_blank" href="http://earthquake.usgs.gov/">Earthquake Hazards Program</a>.
+		    Simplified port of the <a target="_blank" href="https://github.com/bijukunjummen/si-spring-websockets">si-spring-websockets application</a>. This demo does not
+		    use Spring Integration and RabbitMQ. Instead the polling to earthquake.usgs.gov is done with a simple scheduled spring bean method and the last
+		    result is stored in memory.		    
 		  </p>
 		</li>
     </ul>
