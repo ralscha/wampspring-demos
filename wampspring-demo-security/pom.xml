@@ -27,6 +27,17 @@
 
 	<repositories>
 		<repository>
+			<id>sonatype</id>
+			<name>sonatype</name>
+			<url>https://oss.sonatype.org/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>http://repo.spring.io/milestone</url>
