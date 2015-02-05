@@ -10,8 +10,8 @@ public class SecurityWampConfigurer extends AbstractSecurityWampConfigurer {
 
 	@Override
 	protected void configureInbound(WampMessageSecurityMetadataSourceRegistry messages) {
-		messages.wampDestPublishMatchers("/queue/**", "/topic/**").denyAll()
-				.wampDestSubscribeMatchers("/queue/**/*-user*", "/topic/**/*-user*")
+		messages.wampPublishDestMatchers("/queue/**", "/topic/**").denyAll()
+				.wampSubscribeDestMatchers("/queue/**/*-user*", "/topic/**/*-user*")
 				.denyAll().anyMessage().authenticated();
 	}
 
