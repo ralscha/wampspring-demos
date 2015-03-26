@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>ch.rasc.wampspring.demo.security.Application</start-class>
 		<java.version>1.8</java.version>
-		<spring-security.version>4.0.0.RC1</spring-security.version>
+		<spring-security.version>4.0.0.RELEASE</spring-security.version>
 	</properties>
 
 	<repositories>
@@ -93,17 +93,17 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring</artifactId>
-			<version>1.1.0</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-session</artifactId>
-			<version>1.1.0</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-security</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
