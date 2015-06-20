@@ -40,12 +40,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CallClientSockJs {
 
 	public static void main(String[] args) throws InterruptedException {
-		
+
 		List<Transport> transports = new ArrayList<>(2);
 		transports.add(new WebSocketTransport(new StandardWebSocketClient()));
 		transports.add(new RestTemplateXhrTransport());
 		WebSocketClient webSocketClient = new SockJsClient(transports);
-		
+
 		JsonFactory jsonFactory = new MappingJsonFactory(new ObjectMapper());
 
 		CountDownLatch latch = new CountDownLatch(10_000);
@@ -78,7 +78,7 @@ public class CallClientSockJs {
 		if (!latch.await(3, TimeUnit.MINUTES)) {
 			System.out.println("SOMETHING WENT WRONG");
 		}
-		
+
 		System.out.println((System.currentTimeMillis() - start[0]) / 1000 + " seconds");
 		System.out.println("SUCCESS: " + handler.getSuccess());
 		System.out.println("ERROR  : " + handler.getError());
