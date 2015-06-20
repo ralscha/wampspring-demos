@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.2.RELEASE</version>
+		<version>1.2.4.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>ch.rasc.wampspring.demo.security.Application</start-class>
 		<java.version>1.8</java.version>
-		<spring-security.version>4.0.0.RELEASE</spring-security.version>
+		<spring-security.version>4.0.1.RELEASE</spring-security.version>
 	</properties>
 
 	<repositories>
@@ -88,22 +88,22 @@
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>1.0.1.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-session</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring-security</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
