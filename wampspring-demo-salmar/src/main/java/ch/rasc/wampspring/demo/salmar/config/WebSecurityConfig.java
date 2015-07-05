@@ -36,10 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					throws AuthenticationException {
 				UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
 
-				return new UsernamePasswordAuthenticationToken(token.getName(), token
-						.getCredentials(), SECURE_ADMIN_PASSWORD.equals(token
-						.getCredentials()) ? AuthorityUtils.createAuthorityList("ADMIN")
-						: null);
+				return new UsernamePasswordAuthenticationToken(token.getName(),
+						token.getCredentials(),
+						SECURE_ADMIN_PASSWORD.equals(token.getCredentials())
+								? AuthorityUtils.createAuthorityList("ADMIN") : null);
 			}
 		});
 	}

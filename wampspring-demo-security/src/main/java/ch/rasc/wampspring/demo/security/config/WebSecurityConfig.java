@@ -18,14 +18,14 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 public class WebSecurityConfig {
 
 	@Configuration
-	public static class DefaultWebSecurityConfigurerAdapter extends
-			WebSecurityConfigurerAdapter {
+	public static class DefaultWebSecurityConfigurerAdapter
+			extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth,
 				UserDetailsService userDetailsService) throws Exception {
-			auth.userDetailsService(userDetailsService).passwordEncoder(
-					new BCryptPasswordEncoder());
+			auth.userDetailsService(userDetailsService)
+					.passwordEncoder(new BCryptPasswordEncoder());
 		}
 
 		@Override
@@ -46,8 +46,8 @@ public class WebSecurityConfig {
 
 	@Configuration
 	@Order(1)
-	public static class H2ConsoleSecurityConfigurationAdapter extends
-			WebSecurityConfigurerAdapter {
+	public static class H2ConsoleSecurityConfigurationAdapter
+			extends WebSecurityConfigurerAdapter {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			//@formatter:off

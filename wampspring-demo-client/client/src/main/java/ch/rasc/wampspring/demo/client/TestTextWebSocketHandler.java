@@ -21,12 +21,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.core.JsonFactory;
+
 import ch.rasc.wampspring.message.CallErrorMessage;
 import ch.rasc.wampspring.message.CallResultMessage;
 import ch.rasc.wampspring.message.WampMessage;
 import ch.rasc.wampspring.message.WelcomeMessage;
-
-import com.fasterxml.jackson.core.JsonFactory;
 
 public class TestTextWebSocketHandler extends TextWebSocketHandler {
 

@@ -12,23 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
-import net.sf.uadetector.ReadableUserAgent;
-import net.sf.uadetector.UserAgentStringParser;
-import net.sf.uadetector.service.UADetectorServiceFactory;
-
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampUnsubscribeListener;
 import ch.rasc.wampspring.message.CallMessage;
 import ch.rasc.wampspring.message.UnsubscribeMessage;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.uadetector.ReadableUserAgent;
+import net.sf.uadetector.UserAgentStringParser;
+import net.sf.uadetector.service.UADetectorServiceFactory;
 
 @Service
 public class ChatService {
@@ -69,8 +68,8 @@ public class ChatService {
 
 	@WampUnsubscribeListener("message")
 	public void unsubscribeClient(UnsubscribeMessage unsubscribeMessage) {
-		UserConnection uc = this.socketIdToUserMap.remove(unsubscribeMessage
-				.getWebSocketSessionId());
+		UserConnection uc = this.socketIdToUserMap
+				.remove(unsubscribeMessage.getWebSocketSessionId());
 		if (uc != null) {
 			this.eventMessenger.sendToAll("disconnected", uc);
 		}
@@ -97,12 +96,12 @@ public class ChatService {
 
 	@WampCallListener("snapshot")
 	public void snapshot(CallMessage callMessage, String image) {
-		UserConnection uc = this.socketIdToUserMap.get(callMessage
-				.getWebSocketSessionId());
+		UserConnection uc = this.socketIdToUserMap
+				.get(callMessage.getWebSocketSessionId());
 		if (uc != null && image.startsWith(DATA_IMAGE)) {
 			try {
-				byte[] imageBytes = DatatypeConverter.parseBase64Binary(image
-						.substring(DATA_IMAGE.length()));
+				byte[] imageBytes = DatatypeConverter
+						.parseBase64Binary(image.substring(DATA_IMAGE.length()));
 				String resizedImageDataURL = resize(imageBytes);
 				uc.setImage(resizedImageDataURL);
 				this.eventMessenger.sendToAll("snapshot", uc);
@@ -138,8 +137,8 @@ public class ChatService {
 
 		if (logger.isDebugEnabled()) {
 			try {
-				logger.debug(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
-						offerObject));
+				logger.debug(mapper.writerWithDefaultPrettyPrinter()
+						.writeValueAsString(offerObject));
 			}
 			catch (IOException e) {
 				// ignore this
@@ -158,8 +157,8 @@ public class ChatService {
 
 		if (logger.isDebugEnabled()) {
 			try {
-				logger.debug(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
-						candidate));
+				logger.debug(mapper.writerWithDefaultPrettyPrinter()
+						.writeValueAsString(candidate));
 			}
 			catch (IOException e) {
 				// ignore this

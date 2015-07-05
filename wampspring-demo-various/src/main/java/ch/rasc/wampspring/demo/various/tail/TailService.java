@@ -15,11 +15,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.PreDestroy;
 
-import net.sf.uadetector.ReadableUserAgent;
-import net.sf.uadetector.UserAgentFamily;
-import net.sf.uadetector.UserAgentStringParser;
-import net.sf.uadetector.service.UADetectorServiceFactory;
-
 import org.apache.commons.io.input.Tailer;
 import org.apache.commons.io.input.TailerListenerAdapter;
 import org.slf4j.LoggerFactory;
@@ -27,12 +22,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ch.rasc.wampspring.EventMessenger;
-
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+
+import ch.rasc.wampspring.EventMessenger;
+import net.sf.uadetector.ReadableUserAgent;
+import net.sf.uadetector.UserAgentFamily;
+import net.sf.uadetector.UserAgentStringParser;
+import net.sf.uadetector.service.UADetectorServiceFactory;
 
 @Service
 public class TailService {

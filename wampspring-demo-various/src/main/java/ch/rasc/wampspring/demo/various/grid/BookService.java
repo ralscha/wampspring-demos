@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.message.CallMessage;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class BookService {
@@ -26,8 +26,8 @@ public class BookService {
 	private ObjectMapper objectMapper;
 
 	@WampCallListener("grid:read")
-	public Collection<Book> bookRead(CallMessage callMessage, StoreReadRequest readRequest)
-			throws Throwable {
+	public Collection<Book> bookRead(CallMessage callMessage,
+			StoreReadRequest readRequest) throws Throwable {
 		System.out.println("bookRead:" + callMessage.getWebSocketSessionId());
 
 		List<Book> list = BookDb.list();

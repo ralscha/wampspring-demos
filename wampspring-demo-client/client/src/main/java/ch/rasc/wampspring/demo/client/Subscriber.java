@@ -29,14 +29,14 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ch.rasc.wampspring.message.EventMessage;
 import ch.rasc.wampspring.message.SubscribeMessage;
 import ch.rasc.wampspring.message.WampMessage;
 import ch.rasc.wampspring.message.WelcomeMessage;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.MappingJsonFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class Subscriber {
@@ -75,7 +75,8 @@ public class Subscriber {
 
 	static class SubscribeWebSocketHandler extends TextWebSocketHandler {
 
-		private final JsonFactory jsonFactory = new MappingJsonFactory(new ObjectMapper());
+		private final JsonFactory jsonFactory = new MappingJsonFactory(
+				new ObjectMapper());
 
 		@Override
 		protected void handleTextMessage(WebSocketSession session, TextMessage message)

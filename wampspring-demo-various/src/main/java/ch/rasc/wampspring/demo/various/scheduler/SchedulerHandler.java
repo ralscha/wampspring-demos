@@ -10,12 +10,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.annotation.WampPublishListener;
 import ch.rasc.wampspring.message.PublishMessage;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class SchedulerHandler {
@@ -59,9 +59,9 @@ public class SchedulerHandler {
 			ids.add(result);
 		}
 
-		this.eventMessenger
-				.sendTo("schdemo#serverSyncId", Collections.singletonMap("records", ids),
-						message.getWebSocketSessionId());
+		this.eventMessenger.sendTo("schdemo#serverSyncId",
+				Collections.singletonMap("records", ids),
+				message.getWebSocketSessionId());
 
 		return Collections.singletonMap("records", updatedRecords);
 	}

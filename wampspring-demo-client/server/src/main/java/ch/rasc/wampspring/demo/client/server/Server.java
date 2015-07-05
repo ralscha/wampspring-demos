@@ -26,8 +26,8 @@ import ch.rasc.wampspring.config.DefaultWampConfiguration;
 import ch.rasc.wampspring.config.WampEndpointRegistry;
 
 @Configuration
-@EnableAutoConfiguration(exclude = { HttpEncodingAutoConfiguration.class,
-		WebMvcAutoConfiguration.class })
+@EnableAutoConfiguration(
+		exclude = { HttpEncodingAutoConfiguration.class, WebMvcAutoConfiguration.class })
 public class Server extends DefaultWampConfiguration {
 
 	@Override

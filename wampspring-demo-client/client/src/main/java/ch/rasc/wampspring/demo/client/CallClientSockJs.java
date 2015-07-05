@@ -31,11 +31,11 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import ch.rasc.wampspring.message.CallMessage;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ch.rasc.wampspring.message.CallMessage;
 
 public class CallClientSockJs {
 
@@ -70,7 +70,7 @@ public class CallClientSockJs {
 				}
 			}
 
-		}, t -> {
+		} , t -> {
 			System.out.println("DO HANDSHAKE ERROR: " + t);
 			System.exit(1);
 		});

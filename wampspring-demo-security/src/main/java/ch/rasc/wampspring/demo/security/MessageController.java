@@ -76,7 +76,8 @@ public class MessageController {
 	}
 
 	@WampCallListener("/users")
-	public Map<String, Object> subscribeMessages(@AuthenticationPrincipal User currentUser) {
+	public Map<String, Object> subscribeMessages(
+			@AuthenticationPrincipal User currentUser) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("me", currentUser.getEmail());
 		result.put("friends", this.activeUserRepository.findAllActiveUsers());
@@ -87,8 +88,8 @@ public class MessageController {
 	public String subscribeUser(@AuthenticationPrincipal User currentUser,
 			WampSession session) {
 
-		this.activeUserRepository.save(new ActiveWebSocketUser(session
-				.getWebSocketSessionId(), currentUser.getEmail()));
+		this.activeUserRepository.save(new ActiveWebSocketUser(
+				session.getWebSocketSessionId(), currentUser.getEmail()));
 
 		return currentUser.getEmail();
 	}
@@ -97,8 +98,8 @@ public class MessageController {
 			excludeSender = true)
 	public String unsubscribeUser(WampSession session) {
 
-		ActiveWebSocketUser user = this.activeUserRepository.findOne(session
-				.getWebSocketSessionId());
+		ActiveWebSocketUser user = this.activeUserRepository
+				.findOne(session.getWebSocketSessionId());
 
 		if (user == null) {
 			return null;

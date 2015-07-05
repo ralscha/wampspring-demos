@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ch.rasc.wampspring.EventMessenger;
 import ch.rasc.wampspring.annotation.WampCallListener;
 import ch.rasc.wampspring.broker.SubscriptionRegistry;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class EarthquakeService {

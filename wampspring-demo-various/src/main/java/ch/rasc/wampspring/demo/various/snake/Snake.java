@@ -98,7 +98,8 @@ public class Snake {
 		handleCollisions(snakes, eventMessenger);
 	}
 
-	private void handleCollisions(Collection<Snake> snakes, EventMessenger eventMessenger) {
+	private void handleCollisions(Collection<Snake> snakes,
+			EventMessenger eventMessenger) {
 		for (Snake snake : snakes) {
 			boolean headCollision = this.id != snake.id
 					&& snake.getHead().equals(this.head);

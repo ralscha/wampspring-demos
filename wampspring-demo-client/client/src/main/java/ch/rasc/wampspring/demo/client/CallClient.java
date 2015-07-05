@@ -25,11 +25,11 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import ch.rasc.wampspring.message.CallMessage;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ch.rasc.wampspring.message.CallMessage;
 
 public class CallClient {
 
@@ -59,7 +59,7 @@ public class CallClient {
 				}
 			}
 
-		}, t -> {
+		} , t -> {
 			System.out.println("DO HANDSHAKE ERROR: " + t);
 			System.exit(1);
 		});

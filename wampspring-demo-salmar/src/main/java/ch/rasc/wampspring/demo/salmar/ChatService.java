@@ -75,7 +75,8 @@ public class ChatService {
 	}
 
 	@WampCallListener("publishPrivateMessage")
-	public void publishPrivateMessage(String message, String username, Principal principal) {
+	public void publishPrivateMessage(String message, String username,
+			Principal principal) {
 		String sanitizedMessage = checkProfanityAndSanitize(message);
 
 		ChatMessage chatMessage = new ChatMessage();
