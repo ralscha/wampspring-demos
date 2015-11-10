@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>ch.rasc.wampspring.demo.salmar.Application</start-class>
 		<java.version>1.8</java.version>
-		<spring-security.version>4.0.2.RELEASE</spring-security.version>
+		<spring-security.version>4.0.3.RELEASE</spring-security.version>
 	</properties>
 
 	<repositories>
