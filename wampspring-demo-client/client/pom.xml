@@ -16,7 +16,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>4.2.3.RELEASE</version>
+				<version>4.2.4.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-websocket</artifactId>
-			<version>8.0.28</version>
+			<version>8.0.30</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
@@ -62,7 +62,7 @@
 					<properties>
 						<owner>Ralph Schaer</owner>
 						<year>2015</year>
-						<currentYear>2015</currentYear>
+						<currentYear>2016</currentYear>
 						<email>ralphschaer@gmail.com</email>
 					</properties>
 					<excludes>
