@@ -16,12 +16,26 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>4.2.6.RELEASE</version>
+				<version>4.3.2.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<repositories>
+			<repository>
+				<id>sonatype</id>
+				<name>sonatype</name>
+				<url>https://oss.sonatype.org/content/groups/public</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</repository>	
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -31,12 +45,12 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-websocket</artifactId>
-			<version>8.0.35</version>
+			<version>8.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring</artifactId>
-			<version>1.1.1</version>
+			<version>1.1.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -56,7 +70,7 @@
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>2.11</version>
+				<version>3.0.rc1</version>
 				<configuration>
 					<header>${basedir}/../../header.txt</header>
 					<properties>
