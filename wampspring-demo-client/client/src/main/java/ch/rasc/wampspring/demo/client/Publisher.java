@@ -86,7 +86,7 @@ public class Publisher {
 				System.out.println("SENDING PUBLISH MESSAGES: " + e1);
 			}
 
-		} , t -> {
+		}, t -> {
 			System.out.println("DO HANDSHAKE ERROR: " + t);
 			System.exit(1);
 		});

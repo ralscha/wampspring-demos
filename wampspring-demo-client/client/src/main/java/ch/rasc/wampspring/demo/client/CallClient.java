@@ -59,7 +59,7 @@ public class CallClient {
 				}
 			}
 
-		} , t -> {
+		}, t -> {
 			System.out.println("DO HANDSHAKE ERROR: " + t);
 			System.exit(1);
 		});

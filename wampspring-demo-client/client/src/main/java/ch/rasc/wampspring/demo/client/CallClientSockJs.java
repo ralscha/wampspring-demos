@@ -70,7 +70,7 @@ public class CallClientSockJs {
 				}
 			}
 
-		} , t -> {
+		}, t -> {
 			System.out.println("DO HANDSHAKE ERROR: " + t);
 			System.exit(1);
 		});
