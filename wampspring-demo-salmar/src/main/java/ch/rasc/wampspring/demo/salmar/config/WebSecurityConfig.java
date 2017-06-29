@@ -39,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				return new UsernamePasswordAuthenticationToken(token.getName(),
 						token.getCredentials(),
 						SECURE_ADMIN_PASSWORD.equals(token.getCredentials())
-								? AuthorityUtils.createAuthorityList("ADMIN") : null);
+								? AuthorityUtils.createAuthorityList("ADMIN")
+								: null);
 			}
 		});
 	}
