@@ -16,7 +16,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>4.3.12.RELEASE</version>
+				<version>4.3.13.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -59,7 +59,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.2</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -75,10 +75,10 @@
 				<configuration>
 					<header>${basedir}/../../header.txt</header>
 					<properties>
-						<owner>Ralph Schaer</owner>
+						
 						<year>2015</year>
 						<currentYear>2017</currentYear>
-						<email>ralphschaer@gmail.com</email>
+						
 					</properties>
 					<excludes>
 						<exclude>**/*.xml</exclude>
