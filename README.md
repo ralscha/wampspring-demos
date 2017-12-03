@@ -1,3 +1,6 @@
+**Deprecated**: See the https://github.com/ralscha/wamp2spring project for the WAMP v2 implementation
+
+
 A collection of sample applications built with 
 
    * [wampspring 1.1](https://github.com/ralscha/wampspring/)
