@@ -82,7 +82,8 @@
 						<exclude>**/*.yml</exclude>
 						<exclude>**/.gitignore</exclude>
 						<exclude>.mvn/**/*</exclude>
-						<exclude>mvnw.cmd</exclude>						
+						<exclude>mvnw.cmd</exclude>
+						<exclude>mvnw</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
 				</configuration>
