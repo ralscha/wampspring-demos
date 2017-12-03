@@ -24,20 +24,6 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<repositories>
-			<repository>
-				<id>sonatype</id>
-				<name>sonatype</name>
-				<url>https://oss.sonatype.org/content/groups/public</url>
-				<snapshots>
-					<enabled>true</enabled>
-				</snapshots>
-				<releases>
-					<enabled>true</enabled>
-				</releases>
-			</repository>	
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -50,7 +36,7 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>wampspring</artifactId>
-			<version>1.1.2-SNAPSHOT</version>
+			<version>1.1.2</version>
 		</dependency>
 	</dependencies>
 
